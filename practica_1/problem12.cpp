@@ -4,27 +4,7 @@
 
 using namespace std;
 
-int nextPrime(unsigned int number){
-
-    unsigned cont = number;
-    while (true){
-        unsigned int prime = 0;
-
-        for (unsigned int i = 1; i <= cont + 1; i++){
-            if (cont % i == 0) prime++;
-        }
-
-
-        if (prime == 2){
-            if (cont > number){
-                return cont;
-                break;
-            }
-
-        }
-        cont++;
-    }
-}
+int nextPrime(unsigned int number);
 
 void problem12(){
     //Problema 12. Escriba un programa que calcula el máximo factor primo de un número.
@@ -59,9 +39,25 @@ void problem12(){
         }
 
         if (division == 1) break;
-
     }
-
     cout << "El mayor factor primo de " << n << " es " <<  prime;
+}
 
+int nextPrime(unsigned int number){
+    unsigned cont = number;
+    while (true){
+        unsigned int prime = 0;
+
+        for (unsigned int i = 1; i <= cont + 1; i++){
+            if (cont % i == 0) prime++;
+        }
+
+        if (prime == 2){
+            if (cont > number){
+                return cont;
+                break;
+            }
+        }
+        cont++;
+    }
 }

@@ -40,7 +40,6 @@ void problem5(){
         break;
     }
 
-    string caracter = "*";
     unsigned int numberOfCaracter = 1;
     unsigned int numberSpaces;
 

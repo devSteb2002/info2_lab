@@ -4,18 +4,7 @@
 
 using namespace std;
 
-bool isPrime(unsigned int number){
-
-    unsigned cont = 0;
-
-    for (int i = 1; i <= number; i++){
-        if (number % i == 0) cont++;
-    }
-
-    if (cont == 2) return true;
-
-    return false;
-}
+bool isPrime(unsigned int number);
 
 void problem13(){
     //Problema 13. Escriba un programa que reciba un número y calcule la suma de todos los primos
@@ -48,6 +37,17 @@ void problem13(){
     }
 
     cout << "El resultado de la suma es: " << sum;
+}
 
+bool isPrime(unsigned int number){
 
+    unsigned cont = 0;
+
+    for (int i = 1; i <= number; i++){
+        if (number % i == 0) cont++;
+    }
+
+    if (cont == 2) return true;
+
+    return false;
 }

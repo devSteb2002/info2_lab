@@ -35,7 +35,7 @@ void problem10(){
         }
 
         if (cont == 2){
-            if (iters == n -1){
+            if (iters == n - 1){
                 cout << "El primo numero " << n << " es " << numbers << endl;
                 finded = true;
             }

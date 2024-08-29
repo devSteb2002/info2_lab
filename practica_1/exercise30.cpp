@@ -6,21 +6,8 @@
 
 using namespace std;
 
-void clearBufferCid30(){
-    cin.clear();
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
-}
-
-bool validateInput30(){
-    if (cin.fail()){
-        clearBufferCid30();
-        cout << "Numero invalido, vuelva a intentar" << endl;
-        return false;
-    }
-
-    clearBufferCid30();
-    return true;
-}
+void clearBufferCid30();
+bool validateInput30();
 
 void exercise30(){
     //Ejercicio 30. Escriba un programa que genere un número aleatorio A (entre 0 y 100) y le pida al
@@ -62,9 +49,23 @@ void exercise30(){
             cout << "Felicitaciones, has encontrado el numero." << endl;
             exit = true;
         }
-
     }
 
     cout << "El numero de intentos fue: " << trys;
 }
 
+void clearBufferCid30(){
+    cin.clear();
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+}
+
+bool validateInput30(){
+    if (cin.fail()){
+        clearBufferCid30();
+        cout << "Numero invalido, vuelva a intentar" << endl;
+        return false;
+    }
+
+    clearBufferCid30();
+    return true;
+}

@@ -4,31 +4,8 @@
 
 using namespace std;
 
-int counTermsSerieCollatz(int seed){
-    unsigned int changeSeed = seed, countTerms = 0;
-
-    while (changeSeed != 1) {
-        if (changeSeed % 2 == 0)  changeSeed /= 2;
-        else changeSeed = 3 * changeSeed + 1;
-        countTerms++;
-    }
-
-    return countTerms;
-}
-
-string drawSerie(int seed){
-    unsigned int changeSeed = seed;
-    string serie = "";
-
-    while (changeSeed != 1) {
-        if (changeSeed % 2 == 0)  changeSeed /= 2;
-        else changeSeed = 3 * changeSeed + 1;
-
-        serie = serie + ", " + to_string(changeSeed);
-    }
-
-    return serie;
-}
+int counTermsSerieCollatz(int seed);
+string drawSerie(int seed);
 
 void problem16(){
     // Problema 16. La serie de Collatz se conforma con la siguiente regla: sea n un elemento de la serie,
@@ -71,6 +48,30 @@ void problem16(){
 
     cout << "La serie mas larga es con la semilla: " << seed << ", Teniendo " << higherTerms + 1 << " terminos." << endl;
     cout  << seed << drawSerie(seed);
+}
 
+int counTermsSerieCollatz(int seed){
+    unsigned int changeSeed = seed, countTerms = 0;
 
+    while (changeSeed != 1) {
+        if (changeSeed % 2 == 0)  changeSeed /= 2;
+        else changeSeed = 3 * changeSeed + 1;
+        countTerms++;
+    }
+
+    return countTerms;
+}
+
+string drawSerie(int seed){
+    unsigned int changeSeed = seed;
+    string serie = "";
+
+    while (changeSeed != 1) {
+        if (changeSeed % 2 == 0)  changeSeed /= 2;
+        else changeSeed = 3 * changeSeed + 1;
+
+        serie = serie + ", " + to_string(changeSeed);
+    }
+
+    return serie;
 }

@@ -4,22 +4,8 @@
 
 using namespace std;
 
-void clearBufferCid_(){
-    cin.clear();
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
-}
-
-bool validateInput28(){
-    if (cin.fail()){
-        clearBufferCid_();
-        cout << "Numero invalido, vuelva a intentar" << endl;
-        return false;
-    }
-
-    clearBufferCid_();
-    return true;
-}
-
+void clearBufferCid_();
+bool validateInput28();
 
 void exercise28(){
     //Ejercicio 28. Escriba un programa que encuentre el valor aproximado de pi en base a la siguiente
@@ -59,4 +45,20 @@ void exercise28(){
     float result = 4.0 * operation;
 
     cout << "pi es aproximadamente: " << result;
+}
+
+void clearBufferCid_(){
+    cin.clear();
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+}
+
+bool validateInput28(){
+    if (cin.fail()){
+        clearBufferCid_();
+        cout << "Numero invalido, vuelva a intentar" << endl;
+        return false;
+    }
+
+    clearBufferCid_();
+    return true;
 }

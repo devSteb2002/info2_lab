@@ -3,54 +3,9 @@
 
 using namespace std;
 
-bool validateTime(string time){
-    try {
-        stoi(time);
-    } catch (invalid_argument) {
-        cout << "Por favor ingrese un numero valido." << endl;
-        return false;
-    }
-
-    return true;
-
-}
-
-string validateInputs(string text){
-    string time = "";
-
-    while (true){
-        cout << "Ingrese el " <<  text << " numero con 4 digitos: ";
-        cin >> time;
-
-        if (!validateTime(time)) continue;
-
-        if (time.length() < 2 || time.length() > 4){
-            cout << "El valor ingresado no debe ser menor de 2 y mayor de 4 digitos." << endl;
-            continue;
-        }
-
-
-        time = time.length() == 2 ? (time + "00") : time;
-        time = time.length() == 3 ? ("0" + time) : time;
-
-        if (time[2] >= '6'){
-            cout << time << " es un tiempo invalido." << endl;
-            continue;
-        }
-
-        return time;
-    }
-}
-
-int convertTimeToSecond(string time){
-
-    int hour = stoi(time.substr(0,2));
-    int minuts = stoi(time.substr(2,4));
-    int totalSeconds = (hour * 3600) +  (minuts * 60);
-
-    return totalSeconds;
-}
-
+bool validateTime(string time);
+string validateInputs(string text);
+int convertTimeToSecond(string time);
 
 void problem4(){
     // Problema 4. Escriba un programa para leer dos números enteros con el siguiente signicado: el
@@ -76,3 +31,51 @@ void problem4(){
 
     cout << "La hora es: " << totatHours << ":" << totalminutes;
 }
+
+bool validateTime(string time){
+    try {
+        stoi(time);
+    } catch (invalid_argument) {
+        cout << "Por favor ingrese un numero valido." << endl;
+        return false;
+    }
+
+    return true;
+}
+
+string validateInputs(string text){
+    string time = "";
+
+    while (true){
+        cout << "Ingrese el " <<  text << " numero con 4 digitos: ";
+        cin >> time;
+
+        if (!validateTime(time)) continue;
+
+        if (time.length() < 2 || time.length() > 4){
+            cout << "El valor ingresado no debe ser menor de 2 y mayor de 4 digitos." << endl;
+            continue;
+        }
+
+        time = time.length() == 2 ? (time + "00") : time;
+        time = time.length() == 3 ? ("0" + time) : time;
+
+        if (time[2] >= '6'){
+            cout << time << " es un tiempo invalido." << endl;
+            continue;
+        }
+
+        return time;
+    }
+}
+
+
+int convertTimeToSecond(string time){
+
+    int hour = stoi(time.substr(0,2));
+    int minuts = stoi(time.substr(2,4));
+    int totalSeconds = (hour * 3600) +  (minuts * 60);
+
+    return totalSeconds;
+}
+

@@ -4,14 +4,7 @@
 
 using namespace std;
 
-int getNumbersOfDivider(int number){
-    int count = 0;;
-    for (int i = 1; i <= number; i++){
-        if (number % i == 0) count++;
-    }
-
-    return count;
-}
+int getNumbersOfDivider(int number);
 
 void problem17(){
     // Problema 17. La secuencia de números triangulares se forma al sumar su posición en el arreglo
@@ -60,4 +53,13 @@ void problem17(){
     } while(iter);
 
     cout << "El numero es: " << numberInPosition << " que tiene " << numberOfDividers << " divisores.";
+}
+
+int getNumbersOfDivider(int number){
+    int count = 0;;
+    for (int i = 1; i <= number; i++){
+        if (number % i == 0) count++;
+    }
+
+    return count;
 }

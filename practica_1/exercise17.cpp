@@ -5,7 +5,8 @@
 using namespace std;
 
 void exercise17(){
-    //Ejercicio 17. Escriba un programa que pida constantemente números hasta que se ingrese el número cero e imprima en pantalla el mayor de todos los números ingresados.
+    //Ejercicio 17. Escriba un programa que pida constantemente
+    //números hasta que se ingrese el número cero e imprima en pantalla el mayor de todos los números ingresados.
     //Ej: si se ingresan 1, 2, 3, 0 se debe imprimir:
     //El numero mayor fue: 3
 
@@ -22,7 +23,7 @@ void exercise17(){
             continue;
         }
 
-        higher = higher > number ? higher : number;
+        higher = (higher > number) ? higher : number;
 
         if (number == 0) break;
 

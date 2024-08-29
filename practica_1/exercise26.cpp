@@ -4,32 +4,11 @@
 
 using namespace std;
 
-bool validateInput26(){
-    if (cin.fail()){
-        cin.clear();
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        cout << "Numero invalido, vuelva a intentar" << endl;
-        return false;
-    }
-
-    return true;
-}
-
-bool isTriangle(int a, int b, int c){
-    return (a + b > c) && (a + c > b) && (b + c > a);
-}
-
-bool isIsoceles(int a, int b, int c){ // es isoceles cuando tiene dos lados iguales
-    return (a == b) || (a == c) || (c == b);
-}
-
-bool isEquilateral(int a, int b, int c){
-    return (a == b) && (a == c);
-}
-
-bool isEcalene(int a, int b, int c){
-    return (a != b) && (a != c);
-}
+bool validateInput26();
+bool isTriangle(int a, int b, int c);
+bool isEquilateral(int a, int b, int c);
+bool isIsoceles(int a, int b, int c);
+bool isEcalene(int a, int b, int c);
 
 void exercise26(){
     //Ejercicio 26. Escriba un programa que pida tres números e imprima el tipo de triangulo (isósceles, equilátero, escaleno) que se formaría, si sus lados tienen la longitud denida por los números
@@ -80,4 +59,31 @@ void exercise26(){
         else if (isIsoceles(numberA, numberB, numberC)) cout << "Es un triangulo isoceles.";
         else if (isEcalene(numberA, numberB, numberC)) cout << "Es un triangulo escaleno.";
     }
+}
+
+bool validateInput26(){
+    if (cin.fail()){
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "Numero invalido, vuelva a intentar" << endl;
+        return false;
+    }
+
+    return true;
+}
+
+bool isTriangle(int a, int b, int c){
+    return (a + b > c) && (a + c > b) && (b + c > a);
+}
+
+bool isIsoceles(int a, int b, int c){ // es isoceles cuando tiene dos lados iguales
+    return (a == b) || (a == c) || (c == b);
+}
+
+bool isEquilateral(int a, int b, int c){
+    return (a == b) && (a == c);
+}
+
+bool isEcalene(int a, int b, int c){
+    return (a != b) && (a != c);
 }

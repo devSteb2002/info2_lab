@@ -4,15 +4,7 @@
 
 using namespace std;
 
-int calculateMCD11(int a, int b){
-    while (b != 0){
-        int temp = b;
-        b = a % b;
-        a = temp;
-    }
-
-    return a;
-}
+int calculateMCD11(int a, int b);
 
 void problem11(){
     // Problema 11. Escriba un programa que reciba un número y calcule el mínimo común múltiplo de
@@ -48,6 +40,15 @@ void problem11(){
         }
 
     }
-
     cout << "El minimo comun multiplo es: " << result;
+}
+
+int calculateMCD11(int a, int b){
+    while (b != 0){
+        int temp = b;
+        b = a % b;
+        a = temp;
+    }
+
+    return a;
 }

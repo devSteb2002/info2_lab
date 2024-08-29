@@ -4,16 +4,7 @@
 
 using namespace std;
 
-bool isPalindrome(unsigned int palind){
-
-    string stringPalindrome = to_string(palind);
-    string reversePalindrome =  stringPalindrome;
-
-    reverse(reversePalindrome.begin(), reversePalindrome.end());
-
-    return stringPalindrome == reversePalindrome;
-
-}
+bool isPalindrome(unsigned int palind);
 
 void problem14(){
     // Problema 14. Un número palíndromo es igual de derecha a izquierda y de izquierda a derecha,
@@ -42,7 +33,17 @@ void problem14(){
             }
         }
     }
-
     cout << majorFirstNumber << " * " << majorSecondNumber << " = " << major << endl;
+}
+
+
+bool isPalindrome(unsigned int palind){
+
+    string stringPalindrome = to_string(palind);
+    string reversePalindrome =  stringPalindrome;
+
+    reverse(reversePalindrome.begin(), reversePalindrome.end());
+
+    return stringPalindrome == reversePalindrome;
 
 }

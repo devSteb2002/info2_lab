@@ -12,31 +12,14 @@ using namespace std;
 //no se puede imprimir correctamente tíldes en la terminal. De ahora en adelante todos los ejemplos
 //de salidas contendrán el mismo error tipográco
 
-void clearBufferCin(){
-    cin.clear();
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
-}
-
-
-bool validateInput(){
-
-    if (cin.fail()){
-        cout << "Por favor ingrese un numero valido. ";
-        clearBufferCin();
-        return false;
-    }
-
-    clearBufferCin();
-    return true;
-}
-
+void clearBufferCin();
+bool validateInput();
 
 void exercise1(){
 
     float numA;
     float numB;
     bool validFirts = false;
-
 
     do {
         if (!validFirts){
@@ -50,13 +33,13 @@ void exercise1(){
             cout << "Ingrese el denominador: " << endl;
             cin >> numB;
 
+            if (!validateInput()) continue;
+
             if (numB == 0.0) {  // 0,0 = 0 and 0,0 = 0
                 cout << "Ingrese un valor diferente de 0. " << endl;
-                clearBufferCin();
                 continue;
             }
 
-            if (!validateInput()) continue;
             break;
         }
 
@@ -66,6 +49,23 @@ void exercise1(){
 
     cout << "El residuo de los numeros " << numA << "/" << numB << " es: " << remainer;
 
+}
+
+void clearBufferCin(){
+    cin.clear();
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+}
+
+bool validateInput(){
+
+    if (cin.fail()){
+        cout << "Por favor ingrese un numero valido. ";
+        clearBufferCin();
+        return false;
+    }
+
+    clearBufferCin();
+    return true;
 }
 
 

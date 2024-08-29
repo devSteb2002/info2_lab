@@ -4,7 +4,6 @@
 
 using namespace std;
 
-
 void problem15(){
     // Problema 15. Empezando con el número 1 y moviéndose hacia la izquierda y en sentido horario
     // se genera una espiral de números como la siguiente:
@@ -120,7 +119,6 @@ void problem15(){
         }
         cout << endl;
     }
-
     cout << "En una espiral " << n << "x" << n << " la suma es: " << sumDiagonals;
 
     // delete []matrix;

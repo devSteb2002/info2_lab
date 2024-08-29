@@ -6,17 +6,7 @@
 
 using namespace std;
 
-bool validateChar(char simbol){
-    if (simbol != '>' && simbol != '<' && simbol != '='){
-        cin.clear();
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        cout << "Simbolo invalido, vuelva a intentar" << endl;
-        return false;
-    }
-
-    return true;
-}
-
+bool validateChar(char simbol);
 
 void exercise29(){
     //Ejercicio 29. Escriba un programa que adivine un número A (entre 0 y 100) seleccionado por el
@@ -88,3 +78,15 @@ void exercise29(){
         valid = false;
     }
 }
+
+bool validateChar(char simbol){
+    if (simbol != '>' && simbol != '<' && simbol != '='){
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "Simbolo invalido, vuelva a intentar" << endl;
+        return false;
+    }
+
+    return true;
+}
+

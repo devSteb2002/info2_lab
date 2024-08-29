@@ -4,17 +4,7 @@
 
 using namespace std;
 
-bool validateDayAndMonth(){
-    if (cin.fail()){
-        cin.clear();
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        cout << "Por favor, ingrese un numero valido" << endl;
-        return false;
-    }
-
-    return true;
-}
-
+bool validateDayAndMonth();
 
 void problem3(){
     // Problema 3. Escriba un programa que debe leer un mes y un día de dicho mes para luego decir
@@ -55,10 +45,8 @@ void problem3(){
             }
 
             exit = true;
-
         }
     }
-
 
     unsigned int getDaysTotal = listMonthsDays[month - 1];
 
@@ -71,6 +59,16 @@ void problem3(){
             cout << day << "/" << month << " es una fecha invalida.";
         }
     }
+}
 
 
+bool validateDayAndMonth(){
+    if (cin.fail()){
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "Por favor, ingrese un numero valido" << endl;
+        return false;
+    }
+
+    return true;
 }

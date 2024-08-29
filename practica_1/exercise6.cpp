@@ -4,16 +4,7 @@
 
 using namespace std;
 
-bool validateInput6(){
-    if (cin.fail()){
-        cin.clear();
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        cout << "Numero invalido, vuelva a intentar" << endl;
-        return false;
-    }
-
-    return true;
-}
+bool validateInput6();
 
 void exercise6(){
     //Ejercicio 6. Escriba un programa que pida dos números A y B e imprima en pantalla la potencia
@@ -46,5 +37,16 @@ void exercise6(){
     for (int i = 1; i <= numberB; i++) result *= numberA;
 
     cout << numberA << "^" << numberB << " = " << result;
+}
 
+
+bool validateInput6(){
+    if (cin.fail()){
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "Numero invalido, vuelva a intentar" << endl;
+        return false;
+    }
+
+    return true;
 }

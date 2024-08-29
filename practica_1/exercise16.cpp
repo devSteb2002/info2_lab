@@ -5,7 +5,8 @@
 using namespace std;
 
 void exercise16(){
-    //Ejercicio 16. Escriba un programa que pida constantemente números hasta que se ingrese el número cero e imprima en pantalla el promedio de los números ingresados (excluyendo el cero).
+    //Ejercicio 16. Escriba un programa que pida constantemente números hasta que se
+    //ingrese el número cero e imprima en pantalla el promedio de los números ingresados (excluyendo el cero).
     //Ej: si se ingresan 1, 2, 3, 0 se debe imprimir:
     //El promedio es: 2
 

@@ -4,25 +4,9 @@
 
 using namespace std;
 
-void clearBufferCid(){
-    cin.clear();
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
-}
-
-bool validateInput27(){
-    if (cin.fail()){
-        clearBufferCid();
-        cout << "Numero invalido, vuelva a intentar" << endl;
-        return false;
-    }
-
-    clearBufferCid();
-    return true;
-}
-
-bool validateOperation(char operation){
-    return (operation == '+' || operation == '-' || operation == '*' || operation == '/');
-}
+void clearBufferCid();
+bool validateInput27();
+bool validateOperation(char operation);
 
 void exercise27(){
     //Ejercicio 27. Escriba un programa que actúe como una calculadora con operaciones de suma,
@@ -87,5 +71,25 @@ void exercise27(){
         break;
     }
     cout << numA << " " << operation << " " << numB << " = " << result;
-
 }
+
+void clearBufferCid(){
+    cin.clear();
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+}
+
+bool validateInput27(){
+    if (cin.fail()){
+        clearBufferCid();
+        cout << "Numero invalido, vuelva a intentar" << endl;
+        return false;
+    }
+
+    clearBufferCid();
+    return true;
+}
+
+bool validateOperation(char operation){
+    return (operation == '+' || operation == '-' || operation == '*' || operation == '/');
+}
+

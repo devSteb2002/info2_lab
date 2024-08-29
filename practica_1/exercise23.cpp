@@ -4,32 +4,9 @@
 
 using namespace std;
 
-void clearCid23(){
-    cin.clear();
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
-}
-
-bool validateInput23(){
-
-    if (cin.fail()){
-        clearCid23();
-        cout << "Introduzca un numero valido " << endl;
-        return false;
-    }
-
-    clearCid23();
-    return true;
-}
-
-int calculateMCD(int a, int b){
-    while (b != 0){
-        int temp = b;
-        b = a % b;
-        a = temp;
-    }
-
-    return a;
-}
+void clearCid23();
+bool validateInput23();
+int calculateMCD(int a, int b);
 
 void exercise23(){
     //Ejercicio 23. Escriba un programa que pida dos números A y B e imprima en pantalla el mínimo
@@ -77,6 +54,35 @@ void exercise23(){
     int mcm = (numberA * numberB) / mcd;
 
     cout << "El MCM de " << numberA << " y " << numberB << " es " << mcm;
-
-
 }
+
+void clearCid23(){
+    cin.clear();
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+}
+
+bool validateInput23(){
+
+    if (cin.fail()){
+        clearCid23();
+        cout << "Introduzca un numero valido " << endl;
+        return false;
+    }
+
+    clearCid23();
+    return true;
+}
+
+
+
+int calculateMCD(int a, int b){
+    while (b != 0){
+        int temp = b;
+        b = a % b;
+        a = temp;
+    }
+
+    return a;
+}
+
+

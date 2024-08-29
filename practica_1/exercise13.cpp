@@ -12,7 +12,6 @@ void exercise13(){
     //2
     //4
 
-
     int n;
 
     do{

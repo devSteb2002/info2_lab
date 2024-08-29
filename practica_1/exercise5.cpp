@@ -5,23 +5,8 @@
 
 using namespace std;
 
-void clearCid(){
-    cin.clear();
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
-}
-
-bool validateInput5(){
-
-    if (cin.fail()){
-        clearCid();
-        cout << "Introduzca un numero valido " << endl;
-        return false;
-    }
-
-    clearCid();
-    return true;
-}
-
+void clearCid();
+bool validateInput5();
 
 void exercise5(){
     //Ejercicio 5. Escriba un programa que pida dos números A y B e imprima en pantalla la división
@@ -62,5 +47,21 @@ void exercise5(){
     prox = round(result);
 
     cout << numberA << "/" << numberB << " = " << prox;
+}
 
+void clearCid(){
+    cin.clear();
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+}
+
+bool validateInput5(){
+
+    if (cin.fail()){
+        clearCid();
+        cout << "Introduzca un numero valido " << endl;
+        return false;
+    }
+
+    clearCid();
+    return true;
 }

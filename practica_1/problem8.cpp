@@ -4,24 +4,8 @@
 
 using namespace std;
 
-bool validateInput_pro(){
-    if (cin.fail()){
-        cin.clear();
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        cout << "Numero invalido, vuelva a intentar" << endl;
-        return false;
-    }
-
-    return true;
-}
-
-bool isInString(string multiples, int number){
-
-    size_t finded = multiples.find(to_string(number));
-
-    if (finded != string::npos) return true;
-    else return false;
-}
+bool validateInput_pro();
+bool isInString(string multiples, int number);
 
 void problem8(){
     /* Problema 8. Escriba un programa que reciba 3 números a, b, c, y calcule la suma de todos los
@@ -92,4 +76,24 @@ void problem8(){
     multipleB.erase(multipleB.length() - 2 , 2);
 
     cout << multipleA << multipleB << " = " << sum;
+}
+
+bool validateInput_pro(){
+    if (cin.fail()){
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "Numero invalido, vuelva a intentar" << endl;
+        return false;
+    }
+
+    return true;
+}
+
+
+bool isInString(string multiples, int number){
+
+    size_t finded = multiples.find(to_string(number));
+
+    if (finded != string::npos) return true;
+    else return false;
 }
