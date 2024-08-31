@@ -28,5 +28,5 @@ void exercise8(){
 
     for (int i = 1; i <= n; i++) result *= i;
 
-    cout << n << "! =" << result;
+    cout << n << "! = " << result;
 }

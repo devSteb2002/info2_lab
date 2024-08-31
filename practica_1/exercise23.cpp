@@ -30,6 +30,7 @@ void exercise23(){
                 continue;
             }
 
+
             validNumber = true;
         }else{
             cout << "Ingrese el segundo numero: ";
@@ -37,7 +38,7 @@ void exercise23(){
 
             if (!validateInput23()) continue;
 
-            if (numberA <= 0){
+            if (numberB <= 0){
                 cout << "El numero debe ser positivo." << endl;
                 continue;
             }
@@ -72,7 +73,6 @@ bool validateInput23(){
     clearCid23();
     return true;
 }
-
 
 
 int calculateMCD(int a, int b){

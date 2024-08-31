@@ -6,6 +6,156 @@
 
 using namespace std;
 
+bool validateInputMain();
+void ExecuteExercise(unsigned int selected);
+void executeProblems(int selected);
+
+
+int main(void)
+{
+
+    string arrayExercises[30] ={
+        "Residuo de dos numeros.",
+        "Numero par o impar",
+        "Imprimir el numero mayor",
+        "Imprimir el numero menor",
+        "Imprimir division con redondeo",
+        "Potencia de dos numeros",
+        "Suma de todos los enteros hasta un numero",
+        "Imprimir factorial",
+        "Area y perimetro de un circulo",
+        "Multiplos de un numero",
+        "Tabla de multiplicar",
+        "Todas las potencias hasta el numero",
+        "Divisores de un numero",
+        "Dos columnas paralelas con numeros",
+        "Suma de todos los numeros ingresados",
+        "Promedio de todos los numeros ingresados",
+        "El mayor de todos los numeros ingresados",
+        "Cuadrado perfecto",
+        "Si es primo o no",
+        "Numero palindromo",
+        "Convertir letra a mayuscula y viceversa",
+        "Cantidad de segundos en formato hh:mm:ss",
+        "Minimo comun multiplo de dos numeros",
+        "Imprimir figura de un cuadrado",
+        "Cantidad de digitos de N",
+        "Triangulo isoceles, escaleno, equilatero",
+        "Calculadora",
+        "Suma infinita de pi",
+        "Adivinar numero de la maquina",
+        "Adivinar numero ingresando numeros"
+    };
+
+    string arrayProblems[17] = {
+        "Vocal o no",
+        "Combinacion de billetes para una cantidad dada",
+        "Combinacion de dia o mes",
+        "Suma de tiempos",
+        "Patron",
+        "Suma infinita de euler",
+        "Serie Fibonacci",
+        "Multiplo de dos nuemros menores a c",
+        "Suma de digitos elevados asi mismo",
+        "Calcular el n-esimo numero primo",
+        "Minimo comun multiplo de todos los enteros hasta n",
+        "Maximo factor primo",
+        "Suma de todos los primos",
+        "Palindromo mas grande con numeros de 3 digitos",
+        "Espiral",
+        "Serie de collatz",
+        "Numeros triangulares"
+    };
+
+
+    unsigned int type, selected;
+    bool input = false, typeP = false;
+    while (!input){
+        if (!typeP){
+
+            cout << "=====================================================================" << endl;
+            cout << "||                      Practica N-1                               ||" << endl;
+            cout << "=====================================================================" << endl;
+            cout << "               Contamos con 30 ejercicios y 17 problemas.         " << endl;
+            cout << "   Ingrese 1 para ver los ejercicios o 0 para ver los problemas.  " << endl;
+            cin >> type;
+
+            if (!validateInputMain()) continue;
+            if (type > 1 || type < 0){
+                cout << "Numero invalido. " << endl;
+                continue;
+            }
+
+            typeP = true;
+        }
+
+        if (type == 1){ // exercises
+            //sleep(0);
+
+            for (int i = 0; i < 30; i++){
+                cout << i +1 << " => " << arrayExercises[i] << endl;
+            }
+
+            cout << "Ingrese un numero correspondiente a un ejercicio: ";
+            cin >> selected;
+
+            if (!validateInputMain()) continue;
+            if (selected < 1 || selected > 30){
+                cout << "Numero invalido. " << endl;
+                continue;
+            }
+        }else{ // problems
+            //sleep(0);
+            for (int i = 0; i < 17; i++){
+                cout << i + 1 << " => " << arrayProblems[i] << endl;
+            }
+
+            cout << "Ingrese un numero correspondiente a un problema: ";
+            cin >> selected;
+
+            if (!validateInputMain()) continue;
+            if (selected < 1 || selected > 17){
+                cout << "Numero invalido. " << endl;
+                continue;
+            }
+        }
+
+
+        if (type == 1){
+            ExecuteExercise(selected);
+            sleep(1);
+        }else{
+            executeProblems(selected);
+            sleep(1);
+        }
+
+
+        unsigned int continue_;
+        cout << endl;
+        while (true){
+            cout << "Ingrese 1 para continuar, 0 para salir." << endl;
+            cin >> continue_;
+
+            if (!validateInputMain()) continue;
+            if (continue_ < 0 || continue_ > 1){
+                cout << "Numero invalido. " << endl;
+                continue;
+            }
+
+            break;
+        }
+
+        if (continue_ == 0){
+            typeP = false;
+        }
+
+        //input = true;
+    }
+
+
+    return 0;
+}
+
 bool validateInputMain(){
 
     if (cin.fail()){
@@ -17,6 +167,7 @@ bool validateInputMain(){
 
     return true;
 }
+
 
 void ExecuteExercise(unsigned int selected){
     switch (selected) {
@@ -115,6 +266,7 @@ void ExecuteExercise(unsigned int selected){
     }
 }
 
+
 void executeProblems(int selected){
     switch (selected) {
     case 1:
@@ -171,148 +323,4 @@ void executeProblems(int selected){
     default:
         break;
     }
-}
-
-int main(void)
-{
-
-    string arrayExercises[30] ={
-        "Residuo de dos numeros.",
-        "Numero par o impar",
-        "Imprimir el numero mayor",
-        "Imprimir el numero menor",
-        "Imprimir division con redondeo",
-        "Potencia de dos numeros",
-        "Suma de todos los enteros hasta un numero",
-        "Imprimir factorial",
-        "Area y perimetro de un circulo",
-        "Multiplos de un numero",
-        "Tabla de multiplicar",
-        "Todas las potencias hasta el numero",
-        "Divisores de un numero",
-        "Dos columnas paralelas con numeros",
-        "Suma de todos los numeros ingresados",
-        "Promedio de todos los numeros ingresados",
-        "El mayor de todos los numeros ingresados",
-        "Cuadrado perfecto",
-        "Si es primo o no",
-        "Numero palindromo",
-        "Convertir letra a mayuscula y viceversa",
-        "Cantidad de segundos en formato hh:mm:ss",
-        "Minimo comun multiplo de dos numeros",
-        "Imprimir figura de un cuadrado",
-        "Cantidad de digitos de N",
-        "Triangulo isoceles, escaleno, equilatero",
-        "Calculadora",
-        "Suma infinita de pi",
-        "Adivinar numero de la maquina",
-        "Adivinar numero ingresando numeros"
-    };
-
-    string arrayProblems[17] = {
-        "Vocal o no",
-        "Combinacion de billetes para una cantidad dada",
-        "Combinacion de dia o mes",
-        "Suma de tiempos",
-        "Patron",
-        "Suma infinita de euler",
-        "Serie Fibonacci",
-        "Multiplo de dos nuemros menores a c",
-        "Suma de digitos elevados asi mismo",
-        "Calcular el n-esimo numero primo",
-        "Minimo comun multiplo de todos los enteros hasta n",
-        "Maximo factor primo",
-        "Suma de todos los primos",
-        "Palindromo mas grande con numeros de 3 digitos",
-        "Espiral",
-        "Serie de collatz",
-        "Numeros triangulares"
-    };
-
-    cout << "=======================================================" << endl;
-    cout << "                      Practica N-1                     " << endl;
-    cout << "=======================================================" << endl;
-
-    unsigned int type, selected;
-    bool input = false, typeP = false;
-    while (!input){
-        if (!typeP){
-            cout << "!Contamos con 30 ejercicios y 17 problemas¡." << endl;
-            cout << "Ingrese 1 para ver los ejercicios o 0 para ver los problemas." << endl;
-            cin >> type;
-
-            if (!validateInputMain()) continue;
-            if (type > 1 || type < 0){
-                cout << "Numero invalido. " << endl;
-                continue;
-            }
-
-            typeP = true;
-        }
-
-        if (type == 1){ // exercises
-            sleep(0.5);
-
-            for (int i = 0; i < 30; i++){
-                cout << i +1 << " => " << arrayExercises[i] << endl;
-            }
-
-            cout << "Ingrese un numero correspondiente a un ejercicio: ";
-            cin >> selected;
-
-            if (!validateInputMain()) continue;
-            if (selected < 1 || selected > 30){
-                cout << "Numero invalido. " << endl;
-                continue;
-            }
-        }else{ // problems
-            sleep(0.5);
-            for (int i = 0; i < 17; i++){
-                cout << i + 1 << " => " << arrayProblems[i] << endl;
-            }
-
-            cout << "Ingrese un numero correspondiente a un problema: ";
-            cin >> selected;
-
-            if (!validateInputMain()) continue;
-            if (selected < 1 || selected > 17){
-                cout << "Numero invalido. " << endl;
-                continue;
-            }
-        }
-
-
-        if (type == 1){
-            ExecuteExercise(selected);
-            sleep(1);
-        }else{
-            executeProblems(selected);
-            sleep(1);
-        }
-
-
-        unsigned int continue_;
-        cout << endl;
-        while (true){
-            cout << "Ingrese 1 para continuar, 0 para salir." << endl;
-            cin >> continue_;
-
-            if (!validateInputMain()) continue;
-            if (continue_ < 0 || continue_ > 1){
-                cout << "Numero invalido. " << endl;
-                continue;
-            }
-
-            break;
-        }
-
-        if (continue_ == 0){
-            typeP = false;
-        }
-
-        //input = true;
-    }
-
-
-    return 0;
 }

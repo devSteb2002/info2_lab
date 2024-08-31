@@ -35,6 +35,7 @@ void exercise27(){
                 }else {
                     cout << "Simbolo de la operacion invalido, vuelva a intentar. " << endl;
                     clearBufferCid();
+                    continue;
                 }
             }else{
                 cout << "Ingrese el segundo numero: ";

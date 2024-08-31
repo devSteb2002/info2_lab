@@ -9,7 +9,7 @@ bool validateDayAndMonth();
 void problem3(){
     // Problema 3. Escriba un programa que debe leer un mes y un día de dicho mes para luego decir
     // si esa combinación de mes y día son válidos. El caso más especial es el 29 de febrero, en dicho caso
-    // imprimir posiblemente año bisiesto.
+    // imprimir posiblemente año bisiesto.
     // Nota: el formato de salida debe ser:
     // 14 es un mes invalido.
     // 31/4 es una fecha invalida.
@@ -55,6 +55,7 @@ void problem3(){
     }else{
         if (month == 2){  //bisiets
             if ( day == 29) cout << day << "/" << month << " es valida en bisiesto.";
+            else cout << day << "/" << month << " es una fecha invalida.";
         } else{
             cout << day << "/" << month << " es una fecha invalida.";
         }

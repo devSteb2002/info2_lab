@@ -6,13 +6,13 @@ using namespace std;
 
 void problem5(){
     //Problema 5. Escriba un programa que muestre el siguiente patrón en la pantalla:
-    //*
-    //***
-    //*****
+    //   *
+    //  ***
+    // *****
     //*******
-    //******
-    //***
-    //*
+    // ******
+    //  ***
+    //   *
 
     //El tamaño del patrón estará determinado un número entero impar que ingrese el usuario. En el
     //    ejemplo mostrado, el tamaño de la gura es 7.
@@ -26,7 +26,7 @@ void problem5(){
         if (cin.fail()){
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            cout << "Ingrese in numero valido." << endl;
+            cout << "Ingrese un numero valido." << endl;
             continue;
         }
 

@@ -93,8 +93,8 @@ void problem15(){
     for (int i = 0; i < n; i++){
         positionDiagonalRigth = i;
 
-        int position1 = matrix[positionDiagonalRigth][positionDiagonalRigth];
-        int position2 =  matrix[positioDiagonalLeft][i];
+        unsigned const int position1 = matrix[positionDiagonalRigth][positionDiagonalRigth];
+        unsigned const int position2 = matrix[positioDiagonalLeft][i];
 
         if (position1 == position2) sumDiagonals += position1;
         else sumDiagonals += position1 + position2;

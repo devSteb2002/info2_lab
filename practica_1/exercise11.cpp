@@ -36,7 +36,7 @@ void exercise11(){
 
     for (int i = 1; i <= 10; i++){
         int result = n * i;
-        cout << i << "x" << n << "=" << result << endl;
+        cout << i << "x" << n << " = " << result << endl;
     }
 
 }

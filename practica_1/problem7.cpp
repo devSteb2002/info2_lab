@@ -5,12 +5,13 @@
 using namespace std;
 
 void problem7(){
-    // Problema 6. Escriba un programa que encuentre el valor aproximado del número de euler en base
-    // a la siguiente suma innita:
-    // e = / !0 + 1/1! + 1/2! + 1 / 3! + ...
-    // El usuario debe ingresar el número de elementos usados en la aproximación.
-    // Ej: si se ingresa 3 e = 1/0! + 1/1! + 1/2! = 2.5
-    // Nota: el formato de salida debe ser: e es aproximadamente: 2.
+    // Problema 7. En la serie de Fibonacci, cada número es la suma de los 2 anteriores e inicia con 1 y
+    // 1. Ej: 1, 1, 2, 3, 5, 8, ....
+    // Escriba un programa que reciba un número n y halle la suma de todos los números pares en la serie
+    // de Fibonacci menores a n.
+    // Ej: si se ingresa 10, sería la suma de 2+8 =10
+    // Nota: el formato de salida debe ser: El resultado de la suma es: 10
+
 
     int n;
 

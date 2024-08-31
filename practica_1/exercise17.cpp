@@ -29,5 +29,5 @@ void exercise17(){
 
     }
 
-    cout << "El numero mayo fue: " << higher;
+    cout << "El numero mayor fue: " << higher;
 }

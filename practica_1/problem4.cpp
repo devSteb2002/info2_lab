@@ -8,7 +8,7 @@ string validateInputs(string text);
 int convertTimeToSecond(string time);
 
 void problem4(){
-    // Problema 4. Escriba un programa para leer dos números enteros con el siguiente signicado: el
+    // Problema 4. Escriba un programa para leer dos números enteros con el siguiente significado: el
     //valor del primer número representa una hora del día en un reloj de 24 horas, de modo que 1245
     //representa las doce y cuarenta y cinco de la tarde. El segundo entero representa un tiempo de duración de la misma manera, por lo que 345 representa tres horas y 45 minutos. El programa debe
     //sumar esta duración primer número, y el resultado será impreso en la misma notación, en este caso

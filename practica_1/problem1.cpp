@@ -26,9 +26,9 @@ void problem1(){
         size_t inVowels = vowels.find(lowerCaracter);
 
         if (inVowels != string::npos){
-            cout << caracter <<  " es una vocal." << endl;
+            cout << caracter <<  " Es una vocal." << endl;
         }else{
-            cout <<  caracter << " es una consonante." << endl;
+            cout <<  caracter << " Es una consonante." << endl;
         }
     }
 }

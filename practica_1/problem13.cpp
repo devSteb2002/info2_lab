@@ -25,8 +25,6 @@ void problem13(){
             continue;
         }
 
-
-
         break;
     }
 

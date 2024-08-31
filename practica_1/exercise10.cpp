@@ -7,7 +7,7 @@ using namespace std;
 void exercise10(){
     //Ejercicio 10. Escriba un programa que pida un número N e imprima en pantalla todos los múltiplos de dicho número entre 1 y 100.
     //Ej: si se ingresa 33 se debe imprimir:
-    //Multiplos de 33 menores que 100:
+    //Multiplos de 33 menores que 100:
     //33
     //66
     //99
