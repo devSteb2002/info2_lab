@@ -19,7 +19,7 @@ void problem_15(){
     int* coordinatesInterception = interceptionBetRects(rectA, rectB); //funcion que me retorna un puntero de un arreglo
 
     if (coordinatesInterception == nullptr){
-        cout << "no hay intercepcion";
+        cout << "No existe interseccion entre los rectangulos." << endl;
         return;
     }
 
@@ -130,12 +130,12 @@ int* interceptionBetRects(int* rectA_, int* rectB_ ){ //funcion para encontrar l
 
              int x, y, widthInter = 0, heigthInter = 0;
 
-             if (rectA_[0] < rectB_[0]){
-                 x = rectB_[0];
-                 y = rectB_[1];
+             if (rectA_[0] < rectB_[0]){ //coordenadas de que esta mas a la izquierda
+                 x = rectB_[0];         // obtener x
+                 y = rectB_[1];         // obtener y
 
-                 widthInter = widthRectA - x;
-                 heigthInter = heigthRectA - y;
+                 widthInter = widthRectA - x; //obtener ancho de interseccion
+                 heigthInter = heigthRectA - y; //obtener alto de interseccion
 
              }else{
                  x = rectA_[0];
@@ -145,14 +145,12 @@ int* interceptionBetRects(int* rectA_, int* rectB_ ){ //funcion para encontrar l
                  heigthInter = heigthRectB - y;
              }
 
-
              intercep[0] = x;
              intercep[1] = y;
              intercep[2] = widthInter;
              intercep[3] = heigthInter;
 
-
-             return intercep;
+             return intercep; // retornar arreglo por referencia
          }
      }
 

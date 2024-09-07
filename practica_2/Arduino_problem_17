@@ -1,0 +1,112 @@
+ https://www.tinkercad.com/things/hgvDOMOLIEi-epic-fyyran-turing/editel?sharecode=YtjCvPSpms8EIghAFTbvUpcW6ay8TXCSNVSOtOWHfXI
+
+
+#include <LiquidCrystal_I2C.h>
+
+LiquidCrystal_I2C lcd(0x20,16,2);
+int number, sum = 0;
+bool numberIntroduced = false;
+int* array = nullptr;
+int rows = 0;
+
+void setup()
+{
+
+  lcd.init();
+  lcd.backlight();
+  lcd.print("Introduzca un");
+  lcd.setCursor(0, 1);
+  lcd.print("numero");
+
+  Serial.begin(9600);
+
+  Serial.println("Por favor, introduzca un numero");
+}
+
+void loop()
+{
+  while(Serial.available() > 0){
+    number = Serial.parseInt();
+
+    if (number != 0){
+        numberIntroduced = true;
+        lcd.clear();
+        lcd.setCursor(0,0);
+        lcd.print("numero valido");
+        break;
+    }else{
+        lcd.clear();
+        lcd.setCursor(0,0);
+        lcd.print("numero");
+        lcd.setCursor(0,1);
+        lcd.print("Invalido");
+    }
+  }
+
+  if (numberIntroduced){
+
+    lcd.clear();
+        lcd.setCursor(0,0);
+        lcd.print("Calculando...");
+
+    for (int i = 1; i < number; i++){
+      int sumFriendly = sumDividers(i);
+
+      if (sumFriendly != 0){
+        addElementArray(array, rows, sumFriendly);
+        rows++;
+      }
+    }
+
+    for (int i = 1; i <= rows; i++){
+      if (array[i -1] == array[i]){
+        sum += array[i];
+      }
+    }
+
+    delete[] array;
+
+    numberIntroduced = false;
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("La suma es:");
+    lcd.setCursor(0, 1);
+    lcd.print(sum);
+  }
+}
+
+
+int sumDividers(int number){
+
+  int firstFriendly = 0, secondFrienly = 0;
+
+  for (int i = 1; i < number; i++){
+        if (number % i == 0) firstFriendly += i;
+  }
+
+  for (int i = 1; i < firstFriendly; i++){
+        if (firstFriendly % i == 0) secondFrienly += i;
+  }
+
+  if (secondFrienly == number && firstFriendly != secondFrienly){
+        return firstFriendly + secondFrienly;
+  }
+
+  return 0;
+}
+
+void addElementArray(int*& array, int rows, int newElement){
+
+  int* newArray = new int[rows + 1];
+
+  for (int i = 0; i < rows; i++){
+        newArray[i] = array[i];
+  }
+
+  newArray[rows] = newElement;
+
+  delete[] array;
+
+  array = newArray;
+
+}
