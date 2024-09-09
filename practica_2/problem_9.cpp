@@ -4,66 +4,54 @@
 
 using namespace std;
 
-void askInputs(int &number, int &stringOfNumbers);
+void askInputs(int &number, long long &stringOfNumbers);
 bool validateInputsNumbers();
 
 void problem_9(){
 
-    int number = 0, stringOfNumber = 0, cont = 0;
-    string toStringNumbers = "", numberSeparates = "";
+    int number = 0, lengthString = 0;
+    long long stringOfNumber = 0;
+    short count = 0, toGetIndex = 0; //count  0 - number para saber cuando dividir, togetNumber, 0 - number posiciones en el array
+    string toStringNumbers = "", numberSeparates = "", pars = "";
 
     askInputs(number, stringOfNumber);
 
     toStringNumbers = to_string(stringOfNumber); // convertir el numero dado en un string
 
-    int arrayNumbers[number];
-    int size = number;
+    while (true){ //llenar el string correctamente
+        lengthString = toStringNumbers.length(); //obtener la longitud del string
 
-    for (int i = toStringNumbers.length(); i >= 0; i--){ // iterar desde la ultima posicion el string con los numeros
-
-        if (cont == number){ // verificar cuando cont sea igual a el numero de division
-            arrayNumbers[size - 1] = i; // guardar en el arreglo la posicion en donde se divide
-            cont = 0;  // reinicializar variables
-            size--;
-            numberSeparates = "";
-        }
-
-        cont++;
+        if (lengthString % number != 0){ // cuando no se puede dividir correctamente
+            toStringNumbers = "0" + toStringNumbers; //concatenar un 0 al principio
+        }else break;
     }
 
-    arrayNumbers[0] = 0; // inicializar la posicion 0 como 0
+    string *numbersSplit = new string[lengthString / number]; // arreglo de string dinamico con #posicion = al numero pro dividir
 
-    for (int i = 0; i < number; i++){ //iterar las cantidad el numero, ya que el array tiene esa misma dimension
-        int index = arrayNumbers[i]; //valor en la posicion i; corresponde una poicion en el string
-        int toIndex = i + 1; // valor en la posicion i +1; corresponde a la posicion siguiente en el string
-        string stringSeparates = "";
+    for (int i = 0; i <= lengthString; i++){ //iterar sobre cada letra del string
 
-        if (toIndex < number){ // si la posicion siguiente es menor que el numero ingresado
-            for (int j = index; j < arrayNumbers[toIndex]; j++){ //itero desde la posicion actual, hasta la siguiente en el string
-                stringSeparates += toStringNumbers[j];
-            }
-        }else if (toIndex == number){ // si son iguales
-            for (int j = index; j < toStringNumbers.length(); j++){ //iterar desde el index hasta la longitud de la cadena
-                stringSeparates += toStringNumbers[j];
-            }
+        if (count == number){ // si count es igual al numero por dividr ingreso la cadena al array
+            numbersSplit[toGetIndex] = pars;
+            toGetIndex++; //aumento la posicion en el array
+            pars = ""; // reinicio el string
+            count = 0; // reinicio el contador
         }
 
-        cout << stringSeparates << endl;
-
-        arrayNumbers[i] = stoi(stringSeparates); // cambiar cada posicion en el arreglo por el numero formado en stringSeparates
+        pars += toStringNumbers[i];
+        count++;
     }
 
     int sum = 0;
-    for (int i = 0; i < number; i++){ // iterar el array para sumar los numeros
-        sum += arrayNumbers[i];
-    }
+    for (int i = 0; i < (lengthString / number); i++) sum += stoi(numbersSplit[i]);
 
-    cout << "La suma es: " << sum << endl;
+    delete[] numbersSplit;
+
+    cout << "Original: " << stringOfNumber << ", Suma: " << sum << endl;
 }
 
 
 
-void askInputs(int &number,int &stringOfNumbers){ // pedir y validar las entradas del usuario
+void askInputs(int &number,long long &stringOfNumbers){ // pedir y validar las entradas del usuario
 
     bool validNumber = false;
 

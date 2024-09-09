@@ -1,0 +1,19 @@
+https://www.tinkercad.com/things/5FDX5xD2FCg-ejericio-4-intensidad-del-led
+
+int PINPOTEN = A0;
+int PINLED = 3;
+
+void setup()
+{
+  pinMode(PINPOTEN, INPUT);
+  pinMode(PINLED, OUTPUT);
+}
+
+void loop()
+{
+  int readPonce = analogRead(PINPOTEN);
+  int pulse = (225.0 * readPonce) / 1023;
+  analogWrite(PINLED, pulse);
+
+
+}

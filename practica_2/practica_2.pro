@@ -19,4 +19,6 @@ HEADERS += \
     problems.h
 
 DISTFILES += \
+    Arduino_Exercise_4 \
+    Arduino_problem_1 \
     Arduino_problem_17
