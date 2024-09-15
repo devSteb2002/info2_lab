@@ -7,11 +7,12 @@ using namespace std;
 void askMoney(int &money);
 void problem_1(){
 
+    int money;
     unsigned int cash[10] = { // array con el tipo de billetes
         50000, 20000, 10000, 5000, 2000,
         1000, 500, 200, 100, 50
     };
-    int money;
+
 
     askMoney(money); // pedir que ingres un numero
 
@@ -38,6 +39,8 @@ void askMoney(int &money){ // validar input y retornar por referencia
             cout << "Numero invalido." << endl;
             continue;
         }
+
+        if (money < 0) money = abs(money);
 
         break;
     }

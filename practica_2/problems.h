@@ -11,4 +11,8 @@ void problem_3();
 void problem_5();
 void problem_7();
 
+
+void exercise_1();
+void exercise_2();
+
 #endif // PROBLEMS_H

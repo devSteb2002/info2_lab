@@ -4,6 +4,8 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += \
+        Exercise_1.cpp \
+        Exercise_2.cpp \
         main.cpp \
         problem_1.cpp \
         problem_11.cpp \
@@ -20,5 +22,6 @@ HEADERS += \
 
 DISTFILES += \
     Arduino_Exercise_4 \
+    Arduino_Exercise_5 \
     Arduino_problem_1 \
     Arduino_problem_17

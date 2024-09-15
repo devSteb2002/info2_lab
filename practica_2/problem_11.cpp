@@ -6,7 +6,7 @@
 using namespace std;
 
 void printSits(bool** array, char rows[]);
-void clearMemory(bool** array);
+void clearMemory(bool** &array);
 unsigned int initCinema();
 unsigned int validateRow(char rows[]);
 unsigned int validateCol();
@@ -163,7 +163,7 @@ unsigned int validateCol(){ // validar el numero del asiento ingresado
     unsigned int spot;
 
     while (true){
-        cout << "Ingrese el asiento." << endl;
+        cout << "Ingrese el asiento (1 - 20)." << endl;
         cin >> spot;
 
         if (cin.fail()){ // validar que se haya ingresado un nuemro
@@ -208,7 +208,7 @@ void printSits(bool** array, char rows[]){
 }
 
 
-void clearMemory(bool** array){
+void clearMemory(bool** &array){
     for (int i = 0; i < 15; i++){
         delete[] array[i];
     }

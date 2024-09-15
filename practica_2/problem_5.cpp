@@ -18,7 +18,6 @@ void problem_5(){
 }
 
 void transformInt(int number, string &numberInString){ // transformar un int a string y devolverlo por referencia
-
     numberInString = to_string(number);
 }
 
