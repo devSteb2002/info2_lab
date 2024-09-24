@@ -8,9 +8,9 @@ int main()
 {
 
 
-     //problem_17();
+    //problem_17();
     //problem_15();
-     //problem_13();
+    //problem_13();
     //problem_11();
     //problem_9();
 
@@ -26,5 +26,3 @@ int main()
 
     return 0;
 }
-
-
