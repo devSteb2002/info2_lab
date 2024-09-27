@@ -1,20 +1,15 @@
-#include "File.h"
+#include "exercises.h"
 
 
 using namespace std;
 
 int main()
 {
+    //ejercicio 1 => metodos de encriptacion
+    Exercise_1();
 
-    string nameFile = "sudo.txt";
-    string textInBits = "";
-    string codifyBits = "";
-
-    convertToBits("AbCd", textInBits); // (texto, textiInBITS => por referencia)
-
-    short nBits = 4;
-
-    encryptBinaryInFirstMethod(textInBits, codifyBits, nBits);
+    //ejercicii 2 => metodos de desencriptacion
+    Exercise_2();
 
 
 }

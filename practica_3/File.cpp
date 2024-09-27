@@ -4,33 +4,24 @@
 
 using namespace std;
 
+//funciones de encriptacion
+void encryptBinaryInFirstMethod(string textInBits, string &codifyBits, unsigned short nBits);
+void encryptBinaryInSecondMethod(string textInBits, string &codifyBits, unsigned short nBits);
+
+//funciones de validacion de entradas
+bool validateNameFile(string nameFile);
+bool validateMethod(short method);
+bool validateSeed();
+
+//funciones secundarias para manejo de datos
 void convertToBits(string text, string &textInBits);
-void encryptBinaryInFirstMethod(string textInBits, string &codifyBits, short nBits);
 string* splitArray(unsigned short nBits, string textInBits);
 void appendToArray(string newElement, unsigned short size, string *&array);
 
 unsigned short SIZEARRAY = 0;
 
-void convertToBits(string text, string &textInBits){ // convertir texto a binario
-    unsigned short length = text.length();
-    string tempString = "";
-
-    for (unsigned short i = 0; i < length; i++){ //iterar sobre cada caracter
-        char letter = text[i];
-
-        if (!isdigit(letter)){  // si no es un numero
-            bitset<8> bits(static_cast<short>(letter)); // encontra el valor en ascci de la letra y convertirlo a binario
-            tempString += bits.to_string();
-
-        }else{
-            bitset<8> bits(letter); // convertir el digito a binario
-            tempString += bits.to_string();
-        }
-    }
-
-    textInBits = tempString;
-}
-
+//==============================================
+//Funciones de encriptacion
 
 void encryptBinaryInFirstMethod(string textInBits, string &codifyBits, unsigned short nBits){ // codificacion del primer metodo
    string *arrayOfBinary = splitArray(nBits, textInBits);
@@ -83,25 +74,73 @@ void encryptBinaryInFirstMethod(string textInBits, string &codifyBits, unsigned 
                    countBits = 0;
                    continue;
                }
-
                newBlockBits += actualBlock[j];
                countBits++;
            }
-
            arrayCodify[i] = newBlockBits;
        }
 
-
-
-       for (int i = 0; i < SIZEARRAY; i++){
-           cout << arrayCodify[i] << endl;
-       }
-
-       codifyBits = "";
+       for (int i = 0; i < SIZEARRAY; i++) codifyBits +=  arrayCodify[i]; //juntar en uns tring todo
 
    } catch (exception &ex) {
+       delete[] arrayOfBinary;
        cout << "error" << endl;
    }
+
+   delete[] arrayOfBinary;
+}
+
+
+void encryptBinaryInSecondMethod(string textInBits, string &codifyBits, unsigned short nBits){ //segundo metodo de encriptacion
+    string *arrayOfBinary = splitArray(nBits, textInBits);
+    string arrayCodify[SIZEARRAY];
+
+    try {
+
+        for(unsigned short i = 0; i < SIZEARRAY; i++){
+            string block = arrayOfBinary[i];
+
+            arrayCodify[i] = block;
+            //agreagamos el ultimo elemento al principio
+            arrayCodify[i][0] = block[nBits - 1];
+
+            for (unsigned short j = 1; j < nBits; j++)
+                arrayCodify[i][j] = block[j - 1];
+
+        }
+
+    } catch (exception &ex) {
+        delete[] arrayOfBinary;
+        cout << "Error en el segundo metodo de encriptacion";
+    }
+
+    for (int i = 0; i < SIZEARRAY; i++) codifyBits +=  arrayCodify[i]; //juntar en uns tring todo
+
+    delete[] arrayOfBinary;
+
+}
+
+//=========================
+//funciones secundarias para manejo de datos
+
+void convertToBits(string text, string &textInBits){ // convertir texto a binario
+    unsigned short length = text.length();
+    string tempString = "";
+
+    for (unsigned short i = 0; i < length; i++){ //iterar sobre cada caracter
+        char letter = text[i];
+
+        if (!isdigit(letter)){  // si no es un numero
+            bitset<8> bits(static_cast<short>(letter)); // encontra el valor en ascci de la letra y convertirlo a binario
+            tempString += bits.to_string();
+
+        }else{
+            bitset<8> bits(letter); // convertir el digito a binario
+            tempString += bits.to_string();
+        }
+    }
+
+    textInBits = tempString;
 }
 
 
@@ -128,6 +167,17 @@ string* splitArray(unsigned short nBits, string textInBits){ //agregar grupos de
         countBits++;
     }
 
+    if (!splitBinaryTemp.empty()){ //validar cuando sobran bits
+        unsigned short lengthRest = splitBinaryTemp.length();
+        unsigned short diference = nBits - lengthRest;
+
+        for (short i = 0; i < diference; i++) splitBinaryTemp = "0" + splitBinaryTemp;
+
+        //añadirlo al array
+        appendToArray(splitBinaryTemp, size, arrayBits);
+
+    }
+
     return arrayBits; // retornar la referencia del arreglo de bits
 }
 
@@ -137,12 +187,16 @@ void appendToArray(string newElement, unsigned short size, string *&array){ // a
 
     SIZEARRAY = size + 1;
 
-    for (int i = 0; i < size; i++){
+    for (int i = 0; i < size; i++)
         tempArray[i] = array[i];
-    }
+
 
     tempArray[size] = newElement;
     delete[] array;
 
     array = tempArray;
 }
+
+
+//===================0
+//funciones para validar datos
