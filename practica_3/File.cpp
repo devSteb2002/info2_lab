@@ -1,4 +1,5 @@
 #include "File.h"
+#include <algorithm>
 #include <cctype>
 #include <bitset> // manejo y convesion de numeros a bits
 
@@ -8,15 +9,18 @@ using namespace std;
 void encryptBinaryInFirstMethod(string textInBits, string &codifyBits, unsigned short nBits);
 void encryptBinaryInSecondMethod(string textInBits, string &codifyBits, unsigned short nBits);
 
-//funciones de validacion de entradas
-bool validateNameFile(string nameFile);
-bool validateMethod(short method);
-bool validateSeed();
-
 //funciones secundarias para manejo de datos
 void convertToBits(string text, string &textInBits);
+string convertToAssci(string text);
 string* splitArray(unsigned short nBits, string textInBits);
 void appendToArray(string newElement, unsigned short size, string *&array);
+
+//funciones para validar
+bool isValidNameFile(string &nameFile, bool inFile);
+
+//funciones para desencriptar
+string decryptBinaryInFirstMethod(string binary, unsigned short seed);
+string decryptBinaryInSecondMethod(string binary, unsigned short seed);
 
 unsigned short SIZEARRAY = 0;
 
@@ -24,87 +28,94 @@ unsigned short SIZEARRAY = 0;
 //Funciones de encriptacion
 
 void encryptBinaryInFirstMethod(string textInBits, string &codifyBits, unsigned short nBits){ // codificacion del primer metodo
-   string *arrayOfBinary = splitArray(nBits, textInBits);
-   string arrayCodify[SIZEARRAY]; // definimos nuevo arreglo del tamaño del anterior
+    SIZEARRAY = 0;
 
-   try {
-       //cambiar cada bit del primer bloque
-       string firstBlock = arrayOfBinary[0];
-       string codifyFirstBlock = "";
+    string *arrayOfBinary = splitArray(nBits, textInBits);
+    string arrayCodify[SIZEARRAY]; // definimos nuevo arreglo del tamaño del anterior
 
-       for (unsigned short i = 0; i < nBits; i++){
-           char element = firstBlock[i];
+    //cambiar cada bit del primer bloque
+    string firstBlock = arrayOfBinary[0];
+    string codifyFirstBlock = "";
+    unsigned short tempSeed = nBits;
 
-           if (element == '0') codifyFirstBlock += '1';
-           else codifyFirstBlock += '0';
-       }
+    for (unsigned short i = 0; i < nBits; i++){
+        char element = firstBlock[i];
 
-       arrayCodify[0] = codifyFirstBlock;
+        if (element == '0') codifyFirstBlock += '1';
+        else codifyFirstBlock += '0';
+    }
+
+    arrayCodify[0] = codifyFirstBlock;
 
        //encriptacion de los demas elementos
 
-       for (unsigned short i = 1; i < SIZEARRAY; i++){
-           string blockBefore = arrayOfBinary[i - 1]; // posicion anterior
-           string actualBlock = arrayOfBinary[i]; // posicion actual
+    for (unsigned short i = 1; i < SIZEARRAY; i++){
+        string blockBefore = arrayOfBinary[i - 1]; // posicion anterior
+        string actualBlock = arrayOfBinary[i]; // posicion actual
 
-           unsigned short countZeros = 0, countOnes = 0;
+        if (actualBlock.length() != nBits) tempSeed = actualBlock.length();
 
-           for (unsigned short j = 0; j < nBits; j++){ // iterar el bloque anterior
-               char bit = blockBefore[j];
+        unsigned short countZeros = 0, countOnes = 0;
 
-               if (bit == '0') countZeros++; //contar cantidad de ceros y de unos
-               else countOnes++;
+        for (unsigned short j = 0; j < nBits; j++){ // iterar el bloque anterior
+            char bit = blockBefore[j];
+
+            if (bit == '0') countZeros++; //contar cantidad de ceros y de unos
+            else countOnes++;
+        }
+
+        //verificacion de las condiciones
+        string codifyBlock = "", newBlockBits = "";
+        unsigned short nBitsCodify = 1; //1 => se invierte cada bit
+        unsigned short countBits = 0;
+
+        if (countZeros > countOnes) nBitsCodify = 2;     //si hay mayor cantidad de ceros que de unos se invierte cada dos bits
+        else if (countOnes > countZeros) nBitsCodify = 3; // cada tres bits
+
+        for (unsigned short j = 0; j < tempSeed; j++){
+
+            if (countBits == nBitsCodify - 1){ // cuando encuentre el bit cada n posiciones invierte valors
+
+                if (actualBlock[j] == '0') newBlockBits += '1';
+                else newBlockBits += '0';
+
+                countBits = 0;
+                continue;
+            }
+
+            newBlockBits += actualBlock[j];
+            countBits++;
            }
 
-           //verificacion de las condiciones
-           string codifyBlock = "", newBlockBits = "";
-           unsigned short nBitsCodify = 1; //1 => se invierte cada bit
-           unsigned short countBits = 0;
-
-           if (countZeros > countOnes) nBitsCodify = 2;     //si hay mayor cantidad de ceros que de unos se invierte cada dos bits
-           else if (countOnes > countZeros) nBitsCodify = 3; // cada tres bits
-
-           for (unsigned short j = 0; j < nBits; j++){
-
-               if (countBits == nBitsCodify - 1){ // cuando encuentre el bit cada n posiciones invierte valors
-
-                   if (actualBlock[j] == '0') newBlockBits += '1';
-                   else newBlockBits += '0';
-
-                   countBits = 0;
-                   continue;
-               }
-               newBlockBits += actualBlock[j];
-               countBits++;
-           }
            arrayCodify[i] = newBlockBits;
        }
 
-       for (int i = 0; i < SIZEARRAY; i++) codifyBits +=  arrayCodify[i]; //juntar en uns tring todo
+    for (int i = 0; i < SIZEARRAY; i++) codifyBits +=  arrayCodify[i]; //juntar en uns tring todo
 
-   } catch (exception &ex) {
-       delete[] arrayOfBinary;
-       cout << "error" << endl;
-   }
-
-   delete[] arrayOfBinary;
+    delete[] arrayOfBinary;
 }
 
 
 void encryptBinaryInSecondMethod(string textInBits, string &codifyBits, unsigned short nBits){ //segundo metodo de encriptacion
+    SIZEARRAY = 0;
+
+
     string *arrayOfBinary = splitArray(nBits, textInBits);
     string arrayCodify[SIZEARRAY];
+    unsigned short tempSeed = nBits;
 
     try {
 
         for(unsigned short i = 0; i < SIZEARRAY; i++){
             string block = arrayOfBinary[i];
 
+            if (block.length() != nBits) tempSeed = block.length();
+
             arrayCodify[i] = block;
             //agreagamos el ultimo elemento al principio
-            arrayCodify[i][0] = block[nBits - 1];
+            arrayCodify[i][0] = block[tempSeed - 1];
 
-            for (unsigned short j = 1; j < nBits; j++)
+            for (unsigned short j = 1; j < tempSeed; j++)
                 arrayCodify[i][j] = block[j - 1];
 
         }
@@ -114,11 +125,169 @@ void encryptBinaryInSecondMethod(string textInBits, string &codifyBits, unsigned
         cout << "Error en el segundo metodo de encriptacion";
     }
 
-    for (int i = 0; i < SIZEARRAY; i++) codifyBits +=  arrayCodify[i]; //juntar en uns tring todo
+    for (int i = 0; i < SIZEARRAY; i++) codifyBits += arrayCodify[i]; //juntar en uns tring todo
 
     delete[] arrayOfBinary;
 
 }
+
+//funciones para desencriptar
+string decryptBinaryInSecondMethod(string binary, unsigned short seed){ // segundo metodo de desencriptacion
+    SIZEARRAY = 0;
+
+    string *arrayOfBinary = splitArray(seed, binary);
+    string arrayCodify[SIZEARRAY];
+    string response = "";
+    unsigned short tempSeed = seed;
+
+
+    try{
+
+        for (unsigned short i = 0; i < SIZEARRAY; i++){
+            string block = arrayOfBinary[i];
+
+            arrayCodify[i] = block;
+
+            if (block.length() != seed) tempSeed = block.length();
+
+            //movemos el primer elemento al final
+            arrayCodify[i][tempSeed - 1] = block[0];
+
+            for (unsigned short j = 0; j < tempSeed - 1; j++){
+                arrayCodify[i][j] = block[j + 1];
+            }
+        }
+
+
+        for (int i = 0; i < SIZEARRAY; i++) response += arrayCodify[i];
+        delete[] arrayOfBinary;
+        return response;
+
+    }catch (invalid_argument &ex){
+        delete[] arrayOfBinary;
+        cout << "error" ;
+        return response;
+    }
+
+
+
+}
+
+
+
+string decryptBinaryInFirstMethod(string binary, unsigned short seed){ //primer metodo de desencriptacion
+    SIZEARRAY = 0;
+
+    string *arrayBinary = splitArray(seed, binary);
+    string arrayDecodify[SIZEARRAY];
+    unsigned short seedTemp = seed;
+
+    //editar primer bloque
+    for (unsigned short i = 0; i < seed; i++){
+        if (arrayBinary[0][i] == '0') arrayBinary[0][i] = '1';
+        else arrayBinary[0][i] = '0';
+    }
+
+    arrayDecodify[0] = arrayBinary[0];
+
+    //editar los demas bloques en base en el primero
+    for (unsigned short i = 1; i < SIZEARRAY; i++){
+
+        string actualBlock = arrayBinary[i];
+        string beffBlock = arrayBinary[i - 1];
+
+        if (actualBlock.length() != seed){
+            seedTemp = actualBlock.length();
+        }
+
+        //contar cantidad de unos y ceros
+        unsigned short numberOfCeros = 0, numberOfOnes = 0;
+        for (unsigned short j = 0; j < seed; j++){
+            if (arrayDecodify[i - 1][j] == '0') numberOfCeros++;
+            else numberOfOnes++;
+        }
+
+        //condicion segun el numero de ceros y unos
+
+        unsigned short coditionsOnesOrCeros = 1, contBits = 0;
+        string stringDecodify = "";
+
+        if (numberOfCeros > numberOfOnes) coditionsOnesOrCeros = 2;
+        else if ( numberOfOnes > numberOfCeros) coditionsOnesOrCeros = 3;
+
+        for (unsigned short j = 0; j < seedTemp; j++){
+
+            if (contBits == (coditionsOnesOrCeros - 1)){
+                if (actualBlock[j] == '0') stringDecodify += '1';
+                else stringDecodify += '0';
+
+                contBits = 0;
+                continue;
+            }
+
+            stringDecodify += actualBlock[j];
+            contBits++;
+        }
+
+
+        arrayDecodify[i] = stringDecodify;
+    }
+
+    string res = "";
+    for (int i = 0; i < SIZEARRAY; i++) res += arrayDecodify[i];
+
+    delete[] arrayBinary;
+    return res;
+}
+
+
+//funciones de validacion
+bool isValidNameFile(string &nameFile, bool inFile){
+
+    string restrictCaracter[] = { "<" , ">" , ":", "“" , "|", "?", "*", "/", "'"};
+    unsigned short length = nameFile.length();
+
+    //validar que tenga alguna extension
+    size_t extensionIndex = nameFile.find('.');
+
+    if (extensionIndex == string::npos){
+        cout << "No se encontro extension del archivo" << endl;
+        return false;
+    }
+
+    string extension = nameFile.substr(extensionIndex, length - 1);
+
+    //verificar que la extension sea la correcta
+    if (!inFile){
+        if (extension != ".txt"){
+            cout << "La extension debe ser .txt" << endl;
+            return false;
+        }
+    }else{
+        if (extension != ".bin"){
+            cout << "La extension debe ser .bin" << endl;
+            return false;
+        }
+    }
+
+    //vericiar que el nombre no tenga los caracters
+    for (unsigned short i = 0; i < 9; i++){
+        size_t findedResctric = nameFile.find(restrictCaracter[i]);
+
+        if (findedResctric != string::npos){
+            cout << "Los caracteres < , >, :, “, |, ?, *, /, no son permitidos" << endl;
+            return false;
+        }
+    }
+
+    //eliminar los espacios en blanco
+    for (unsigned short i = 0; i < length; i++){
+        if (nameFile[i] == ' ') nameFile.erase(i, 1);
+    }
+
+    return true;
+}
+
 
 //=========================
 //funciones secundarias para manejo de datos
@@ -143,9 +312,26 @@ void convertToBits(string text, string &textInBits){ // convertir texto a binari
     textInBits = tempString;
 }
 
+string convertToAssci(string text){
+
+    SIZEARRAY = 0;
+
+    unsigned const byte = 8;
+    string *arrayBinary = splitArray(byte, text);
+    string textDecrypt = "";
+
+    for (int i = 0; i < SIZEARRAY; i++){
+        char carater = static_cast<char>(bitset<8>(arrayBinary[i]).to_ullong());
+        textDecrypt += carater;
+    }
+
+
+    delete[] arrayBinary;
+    return textDecrypt;
+}
+
 
 string* splitArray(unsigned short nBits, string textInBits){ //agregar grupos de bits al arreglo y regresar la referencia
-
     unsigned short countBits = 1, size = 0;
     unsigned short lengthBits = textInBits.length();
     string splitBinaryTemp = "";
@@ -167,16 +353,7 @@ string* splitArray(unsigned short nBits, string textInBits){ //agregar grupos de
         countBits++;
     }
 
-    if (!splitBinaryTemp.empty()){ //validar cuando sobran bits
-        unsigned short lengthRest = splitBinaryTemp.length();
-        unsigned short diference = nBits - lengthRest;
-
-        for (short i = 0; i < diference; i++) splitBinaryTemp = "0" + splitBinaryTemp;
-
-        //añadirlo al array
-        appendToArray(splitBinaryTemp, size, arrayBits);
-
-    }
+    if (!splitBinaryTemp.empty()) appendToArray(splitBinaryTemp, size, arrayBits);
 
     return arrayBits; // retornar la referencia del arreglo de bits
 }
@@ -198,5 +375,3 @@ void appendToArray(string newElement, unsigned short size, string *&array){ // a
 }
 
 
-//===================0
-//funciones para validar datos

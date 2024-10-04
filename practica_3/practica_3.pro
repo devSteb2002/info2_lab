@@ -4,8 +4,8 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += \
-        Exercise1.cpp \
-        Exercise_2.cpp \
+        Aplication.cpp \
+        Exercises.cpp \
         File.cpp \
         main.cpp
 

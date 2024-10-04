@@ -1,15 +1,13 @@
 #include "exercises.h"
-
-
-using namespace std;
+#include "File.h"
 
 int main()
 {
-    //ejercicio 1 => metodos de encriptacion
-    Exercise_1();
 
-    //ejercicii 2 => metodos de desencriptacion
-    Exercise_2();
+    //ejercicios
+    //Exercise_1();
+    //Exercise_2();
 
-
+    //Aplicacion
+    aplicationMain();
 }
