@@ -30,7 +30,7 @@ unsigned short SIZEARRAY = 0;
 void encryptBinaryInFirstMethod(string textInBits, string &codifyBits, unsigned short nBits){ // codificacion del primer metodo
     SIZEARRAY = 0;
 
-    string *arrayOfBinary = splitArray(nBits, textInBits);
+    string *arrayOfBinary = splitArray(nBits, textInBits); //separar en nbits y posiciones en un array
     string arrayCodify[SIZEARRAY]; // definimos nuevo arreglo del tamaño del anterior
 
     //cambiar cada bit del primer bloque
@@ -99,25 +99,22 @@ void encryptBinaryInFirstMethod(string textInBits, string &codifyBits, unsigned 
 void encryptBinaryInSecondMethod(string textInBits, string &codifyBits, unsigned short nBits){ //segundo metodo de encriptacion
     SIZEARRAY = 0;
 
-
-    string *arrayOfBinary = splitArray(nBits, textInBits);
+    string *arrayOfBinary = splitArray(nBits, textInBits); //separar en nbits en posiciones en un array
     string arrayCodify[SIZEARRAY];
     unsigned short tempSeed = nBits;
 
     try {
 
-        for(unsigned short i = 0; i < SIZEARRAY; i++){
+        for(unsigned short i = 0; i < SIZEARRAY; i++){ // iterar sobre el array
             string block = arrayOfBinary[i];
 
-            if (block.length() != nBits) tempSeed = block.length();
+            if (block.length() != nBits) tempSeed = block.length(); // cuando el bloque no contenga los nbits de la semilla
 
             arrayCodify[i] = block;
-            //agreagamos el ultimo elemento al principio
-            arrayCodify[i][0] = block[tempSeed - 1];
+            arrayCodify[i][0] = block[tempSeed - 1]; //agreagamos el ultimo elemento al principio
 
             for (unsigned short j = 1; j < tempSeed; j++)
-                arrayCodify[i][j] = block[j - 1];
-
+                arrayCodify[i][j] = block[j - 1]; // intercambiamos posiciones evitando los extremos
         }
 
     } catch (exception &ex) {
@@ -133,6 +130,9 @@ void encryptBinaryInSecondMethod(string textInBits, string &codifyBits, unsigned
 
 //funciones para desencriptar
 string decryptBinaryInSecondMethod(string binary, unsigned short seed){ // segundo metodo de desencriptacion
+    //NOTA: parecido a la encriptacion
+    //pero aqui se mueve de derecha a izquierda
+
     SIZEARRAY = 0;
 
     string *arrayOfBinary = splitArray(seed, binary);
@@ -146,12 +146,10 @@ string decryptBinaryInSecondMethod(string binary, unsigned short seed){ // segun
         for (unsigned short i = 0; i < SIZEARRAY; i++){
             string block = arrayOfBinary[i];
 
-            arrayCodify[i] = block;
-
             if (block.length() != seed) tempSeed = block.length();
 
-            //movemos el primer elemento al final
-            arrayCodify[i][tempSeed - 1] = block[0];
+            arrayCodify[i] = block;
+            arrayCodify[i][tempSeed - 1] = block[0];  //movemos el primer elemento al final
 
             for (unsigned short j = 0; j < tempSeed - 1; j++){
                 arrayCodify[i][j] = block[j + 1];
@@ -173,6 +171,9 @@ string decryptBinaryInSecondMethod(string binary, unsigned short seed){ // segun
 
 
 string decryptBinaryInFirstMethod(string binary, unsigned short seed){ //primer metodo de desencriptacion
+    //NOTA: es parecido a la forma de encriptacion
+    //pero varia en la manipulacion del arreglo inicial y el arreglo secundario
+
     SIZEARRAY = 0;
 
     string *arrayBinary = splitArray(seed, binary);
@@ -239,13 +240,18 @@ string decryptBinaryInFirstMethod(string binary, unsigned short seed){ //primer 
 
 
 //funciones de validacion
-bool isValidNameFile(string &nameFile, bool inFile){
+bool isValidNameFile(string &nameFile, bool inFile){ // validar el nombre del archivo
 
-    string restrictCaracter[] = { "<" , ">" , ":", "“" , "|", "?", "*", "/", "'"};
+    string restrictCaracter[] = { // caracteres no validos en el nombre de un archivo
+        "<", ">" , ":",
+        "“" , "|", "?",
+        "*", "/", "'"
+    };
+
     unsigned short length = nameFile.length();
 
     //validar que tenga alguna extension
-    size_t extensionIndex = nameFile.find('.');
+    size_t extensionIndex = nameFile.find('.'); // encontrar la posicion del .
 
     if (extensionIndex == string::npos){
         cout << "No se encontro extension del archivo" << endl;
@@ -253,32 +259,38 @@ bool isValidNameFile(string &nameFile, bool inFile){
     }
 
     string extension = nameFile.substr(extensionIndex, length - 1);
+    string name = nameFile.substr(0, extensionIndex);
+
+
+    if (name.empty()){  //validar que tenga un nombre
+        cout << "Debe tener un nombre el archivo, vuelva a intentar." << endl;
+        return false;
+    }
 
     //verificar que la extension sea la correcta
-    if (!inFile){
+    if (!inFile){ // se pregunta por el txt
         if (extension != ".txt"){
-            cout << "La extension debe ser .txt" << endl;
+            cout << "La extension debe ser .txt, vuelva a intentar." << endl;
             return false;
         }
-    }else{
+    }else{ // bin
         if (extension != ".bin"){
-            cout << "La extension debe ser .bin" << endl;
+            cout << "La extension debe ser .bin, vuelva a intentar." << endl;
             return false;
         }
     }
 
     //vericiar que el nombre no tenga los caracters
-    for (unsigned short i = 0; i < 9; i++){
+    for (unsigned short i = 0; i < 9; i++){ // iteramos sobre el arreglo de caracteres invalidos
         size_t findedResctric = nameFile.find(restrictCaracter[i]);
 
         if (findedResctric != string::npos){
-            cout << "Los caracteres < , >, :, “, |, ?, *, /, no son permitidos" << endl;
+            cout << "Los caracteres < , >, :, “, |, ?, *, /, no son permitidos en el nombre, vuelva a intentar" << endl;
             return false;
         }
     }
 
-    //eliminar los espacios en blanco
-    for (unsigned short i = 0; i < length; i++){
+    for (unsigned short i = 0; i < length; i++){     //eliminar los espacios en blanco
         if (nameFile[i] == ' ') nameFile.erase(i, 1);
     }
 
@@ -309,32 +321,26 @@ void convertToBits(string text, string &textInBits){ // convertir texto a binari
     textInBits = tempString;
 }
 
-string convertToAssci(string text){
+string convertToAssci(string text){ // funcion para convertir el codigo binario a ascci
 
     SIZEARRAY = 0;
 
     unsigned const byte = 8;
-    string *arrayBinary = splitArray(byte, text);
+    string *arrayBinary = splitArray(byte, text); // separar nbits en posiciones en un array
     string textDecrypt = "";
 
-
-
     for (int i = 0; i < SIZEARRAY; i++){
-
         try {
-
             if (!arrayBinary[i].empty()){
-                char carater = static_cast<char>(bitset<8>(arrayBinary[i]).to_ullong());
+                char carater = static_cast<char>(bitset<8>(arrayBinary[i]).to_ullong()); // convertir los 8bits a su respectivo valo en ascci
                 textDecrypt += carater;
             }
 
         } catch (const invalid_argument e) {
             cout <<  "eerror " << e.what() << endl;
+            break;
         }
-
-
     }
-
 
     delete[] arrayBinary;
     return textDecrypt;

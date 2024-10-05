@@ -36,6 +36,7 @@ void Exercise_2(){
 
     try {
         readAndWriteFile(true);
+        cout << "Datos desencriptados correctamente" << endl;
     } catch (exception &ex) {
         cout << "Error en readAndWrite" << endl;
     }
@@ -43,87 +44,74 @@ void Exercise_2(){
 
 
 void readAndWriteFile(bool exercise2){
-    fstream File1;
     string line;
 
-    if (!exercise2){
+    if (!exercise2){ // ejercicio 1 (encriptar un texto plano)
+
+        fstream File1; //archivo de texto sin encriptar
+        fstream FileOut; //archvio de encriptacion
 
         File1.open(nameFileInput, ios::in | ios::out | ios::app);
-
-        if (!File1.is_open()){
-            cout << "No se encontro el archivo txt" << endl;
-            return;
-        }
-
-        fstream FileOut; //abrir el archvio donde se pone lo encriptado
-
         FileOut.open(nameFileOutput, ios::out | ios::binary | ios::trunc);
 
-        if (!FileOut.is_open()){
-            cout << "No se pudo abri el archivo .bin" << endl;
+        if (!File1.is_open() || !FileOut.is_open()){ // verificar que se haya abierto los dos archivos
+            cout << "Error al abir los archivos" << endl;
             return;
         }
 
         while(getline(File1, line)){ //encriptar cada linea del archvio de texto ejercicio 1
 
             if (line.empty()) continue;
-            convertToBits(line, textInBits);
 
-            if (method == 1) encryptBinaryInFirstMethod(textInBits, codifyBits, seed);
-            else encryptBinaryInSecondMethod(textInBits, codifyBits, seed);
+            convertToBits(line, textInBits); //convertir a bit el texto de archivo plano
 
+            if (method == 1) encryptBinaryInFirstMethod(textInBits, codifyBits, seed); //codificar metodo 1
+            else encryptBinaryInSecondMethod(textInBits, codifyBits, seed); //codificar metodo 2
 
-            FileOut << codifyBits << endl;
+            FileOut << codifyBits << endl; // añadir al archivo ya codificado
             codifyBits = ""; //limpiar los datos de referencia
-
         }
 
         FileOut.close();
         File1.close();
 
-    }else{
+    }else{ // Ejercicio 2 (desencriptar un archivo)
 
-        fstream FileBinary;
-        ofstream FileText;
+        fstream FileBinary; // Archivo con los datos encriptados
+        ofstream FileText; // Archivo donde se guarda los datos desencriptados
 
         FileBinary.open(nameFileOutput, ios::in | ios::binary);
         FileText.open(nameFileInput, ios::out | ios::trunc);
 
-        if (!FileBinary.is_open()){
-            cout << "No se pudo abrir el archvio .bin";
+        if (!FileBinary.is_open() || !FileText.is_open()){
+            cout << "Error al abrir los archvios" << endl;
             return;
         }
-
-        if (!FileText.is_open()){
-            cout << "No se pudo abir el archivo .txt";
-            return;
-        }
-
 
         string allBinary = "";
 
         while(getline(FileBinary, line)){ //ejercico 2 desencriptar
 
-
             if (line.empty()) continue;
-            string decryptBinary = "";
 
-            if (method == 1) decryptBinary = decryptBinaryInFirstMethod(line, seed); //decodificar segun el metodo
+            string decryptBinary = "", ascci = "";
+
+            if (method == 1) decryptBinary = decryptBinaryInFirstMethod(line, seed); //desencriptar segun el metodo
             else decryptBinary = decryptBinaryInSecondMethod(line, seed);
 
-            string ascci = convertToAssci(decryptBinary); // convertir a texto
+            ascci = convertToAssci(decryptBinary); // convertir a texto
 
-            FileText << ascci << endl;
+            FileText << ascci << endl; // copiar en el archivo plano
         }
 
 
-        FileBinary.close();
+        FileBinary.close(); //cerrar archivos
         FileText.close();
     }
 }
 
 
-void askInfo(unsigned short &method, unsigned short &seed, string exercise){
+void askInfo(unsigned short &method, unsigned short &seed, string exercise){ // funcion para obtener el metodo y la semilla (ambos ejercicios)
 
     bool validMethod = false;
 
@@ -163,7 +151,7 @@ void askInfo(unsigned short &method, unsigned short &seed, string exercise){
     }
 }
 
-void askNamesFiles(string &nameFileInput, string &nameFileOutput){
+void askNamesFiles(string &nameFileInput, string &nameFileOutput){ // funcion para obtener el nombre de los archivos
 
     bool inFile = false;
     cin.ignore();
@@ -173,7 +161,7 @@ void askNamesFiles(string &nameFileInput, string &nameFileOutput){
 
         getline(cin , nameFileInput);
 
-        if (isValidNameFile(nameFileInput, inFile)){
+        if (isValidNameFile(nameFileInput, inFile)){ // funcion que valida el nombre correctamente
             inFile = true;
             break;
         }else cin.clear();

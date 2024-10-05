@@ -3,7 +3,7 @@
 #include <fstream>
 #include <chrono>
 #include <thread>
-
+#include <cstdio>
 
 string FILEADMIN = "sudo.bin";
 string FILEUSERS = "users.bin";
@@ -25,6 +25,7 @@ void aplicationMain(){ // centro de la aplicacion
 
     if (rol == "ADMIN") RolAdmin();
     else if (rol == "USER") RolUser(user);
+    else cout << "Fallo en la red, verifica tu conexion a internet" << endl;;
 
 }
 
@@ -75,48 +76,43 @@ string getRol(string &user){ //obtener los roles
                     continue;
                 }
 
+                if (password.find(" ") != string::npos){
+                    cout << "La contraseña debe estar sin espacios, vuelva a intentar." << endl;
+                    continue;
+                }
+
                 if (!password.empty()) askingData = false;
 
             }
-        }else{
 
-            //PRIMERO: VERFICAR SI ES ADMIN
-            fstream FileAdmin; //abrir en modo lectura
-            FileAdmin.open(FILEADMIN, ios::in | ios::binary);
+        }else{ //verficiaciones de la cedula y contraseña con la bd
+
+            fstream FileAdmin;
+            fstream FileUsers;
+            FileAdmin.open(FILEADMIN, ios::out | ios::in |  ios::binary); //modo lectura
+            FileUsers.open(FILEUSERS, ios::out | ios::in | ios::binary); //modo lectura
 
             if (!FileAdmin.is_open()){
-                cout << "Fallo conexion a la tabla admin" << endl;
+                cout << "Fallo conexion a la base de datos." << endl;
+                aplicationMain();
                 return "";
             }
 
             getline(FileAdmin, line); // leer la primera linea del archivo
-            FileAdmin.close();
-
-            if (compareDecrypts(line, password, id, user)){ //si es admin
-                cout << "Perfil: Administrador" << endl;
-                return "ADMIN";
-            }
+            //verificar si es admin
+            if (compareDecrypts(line, password, id, user)) return "ADMIN"; //Cuando es admin
 
             //verificar con los usuarios
-            fstream FileUsers;
-            FileUsers.open(FILEUSERS, ios::in | ios::binary);
-
-            if (!FileUsers.is_open()){
-                cout << "Fallo la conexion a la tabla users" << endl;
-                return "";
-            }
-
             bool isUser = false;
             while(getline(FileUsers, line)){
 
                 if (line.empty()) continue;
+                //verificar si es user
+                if (compareDecrypts(line, password, id, user)) isUser = true; //Cuando es user
 
-                if (compareDecrypts(line, password, id, user)){
-                    cout << "Perfil: Usuario." << endl;
-                    isUser = true;
-                }
             }
 
+            FileAdmin.close(); //cerrar archivos
             FileUsers.close();
 
             if (isUser) return "USER";
@@ -185,6 +181,11 @@ void RolAdmin(bool init){ // acciones que puede hacer el administrador
                     continue;
                 }
 
+                if (password.find(" ") != string::npos){
+                    cout << "La contraseña no debe tener espacios, vuelva a intentar" << endl;
+                    continue;
+                }
+
                 if (!password.empty()) validatePass = true;
 
             }else{ // validar saldo
@@ -208,9 +209,33 @@ void RolAdmin(bool init){ // acciones que puede hacer el administrador
         }
     }
 
+
+    //verificar si el usuario a crear no existe
+    fstream FileUser;
+    FileUser.open(FILEUSERS, ios::in | ios::binary);
+
+    if (FileUser.is_open()) {
+        string lineUsers = "";
+        string tempUser;
+
+        while(getline(FileUser, lineUsers)){
+            if (lineUsers.empty()) continue;
+
+            if (compareDecrypts(lineUsers, password, id, tempUser)){
+                cout << "El usuario ya existe, vuelva a intentar." << endl;
+                this_thread::sleep_for(chrono::seconds(3));
+                FileUser.close();
+                RolAdmin(true);
+                return;
+            }
+        }
+
+        FileUser.close();
+    }
+
     string formatToSaveNewUser = to_string(id) + "," + password + "," + to_string(cash) + ";"; //id,clave,saldo;
     string codifyBits = "", bits = "";
-    unsigned const short randomNumber = 1 + rand() % 100; // generar nuemero entre 1 a 100
+    unsigned short randomNumber = 1 + rand() % 100; // generar nuemero entre 1 a 100
     bool parity = randomNumber & 1;
 
     convertToBits(formatToSaveNewUser, bits); // convertir a bits el string
@@ -218,12 +243,12 @@ void RolAdmin(bool init){ // acciones que puede hacer el administrador
     if (parity == 0) encryptBinaryInFirstMethod(bits, codifyBits); //encriptar con la primera format (semilla = 4)
     else encryptBinaryInSecondMethod(bits, codifyBits);
 
-    ofstream FileUsers; // definir archivo
+    ofstream FileUsers;
     FileUsers.open(FILEUSERS, ios::out | ios::binary | ios::app); // metodos del archvio
 
     if (!FileUsers.is_open()){
         cout << "No se pudo conectar con la tabla usuarios, comuniquese con soporte." << endl;
-        RolAdmin();
+        aplicationMain();
         return;
     }
 
@@ -233,11 +258,17 @@ void RolAdmin(bool init){ // acciones que puede hacer el administrador
     cout << "Usuario registrado con exito." << endl;
     cout << "-----------------------------" << endl;
 
+    this_thread::sleep_for(chrono::seconds(2));
     RolAdmin(false);
-
 }
 
 void RolUser(string user){
+
+    if (user.empty()){
+        cout << "Error en los usuarios" << endl;
+        aplicationMain();
+        return;
+    }
 
     cout << endl;
     cout << "            BIENVENIDO USUARIO              " << endl;
@@ -264,7 +295,6 @@ void RolUser(string user){
         && findLastComma != string::npos
         && findFirtsComma != string::npos
         ){ // string correcto
-
 
         id = user.substr(0, findFirtsComma);//obtener id
         passMoney = user.substr(findFirtsComma, findLastComma); // clave,saldo
@@ -313,10 +343,15 @@ void RolUser(string user){
                     continue;
                 }
 
+                if (cotMoney > 4500000){
+                    cout << "Solo se pude retirar hasta 4500000 en Cajeros" << endl;
+                    continue;
+                }
+
                 break;
             }
 
-            money -= (COST + cotMoney); // restar el dinero a retirar y el valor de transaccion
+            money = money - (COST + cotMoney); // restar el dinero a retirar y el valor de transaccion
         }
 
         //guardar datos sobreescribiendo el archvio
@@ -332,6 +367,7 @@ void RolUser(string user){
         }
 
         string line = "";
+        string formatToSave = "";
 
         while (getline(FileData, line)){
             string tempUser = "";
@@ -340,7 +376,8 @@ void RolUser(string user){
 
             if (compareDecrypts(line, pass, id_, tempUser)){ //verificar si la linea corresponde al id y contraseña
 
-                string formatToSave = to_string(id_) + "," + pass + "," + to_string(money) + ";";
+                formatToSave = to_string(id_) + "," + pass + "," + to_string(money) + ";";
+
                 string codifyBits = "", bits = "";
                 unsigned const short randomNumber = 1 + rand() % 100; // generar nuemero entre 1 a 100
                 bool parity = randomNumber & 1;
@@ -372,10 +409,16 @@ void RolUser(string user){
         FileData.close();
         TempFile.close();
 
+        //por seguridad
+        //eliminar el archivo temporal y volver a crearlo
+        if (std::remove(FILETEMPORAL.c_str()) != 0){
+            cout << "Error al eliminar la tabla temporal." << endl;
+        }
+
         cout << "Transaccion Exitosa." << endl;
         this_thread::sleep_for(chrono::seconds(3)); //esperar tres segundo para volver a preguntar las opciones
 
-        RolUser(user);
+        RolUser(formatToSave);
         return;
 
     } catch (invalid_argument &ex) {
