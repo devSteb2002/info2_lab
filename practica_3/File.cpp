@@ -168,9 +168,6 @@ string decryptBinaryInSecondMethod(string binary, unsigned short seed){ // segun
         cout << "error" ;
         return response;
     }
-
-
-
 }
 
 
@@ -320,9 +317,22 @@ string convertToAssci(string text){
     string *arrayBinary = splitArray(byte, text);
     string textDecrypt = "";
 
+
+
     for (int i = 0; i < SIZEARRAY; i++){
-        char carater = static_cast<char>(bitset<8>(arrayBinary[i]).to_ullong());
-        textDecrypt += carater;
+
+        try {
+
+            if (!arrayBinary[i].empty()){
+                char carater = static_cast<char>(bitset<8>(arrayBinary[i]).to_ullong());
+                textDecrypt += carater;
+            }
+
+        } catch (const invalid_argument e) {
+            cout <<  "eerror " << e.what() << endl;
+        }
+
+
     }
 
 
