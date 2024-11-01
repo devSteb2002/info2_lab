@@ -26,7 +26,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 DISTFILES += \
-    C:/Users/layya/Downloads/Arcade - Pac-Man - General Sprites.png
+    C:/Users/layya/Downloads/Arcade - Pac-Man - General Sprites.png \
+    Resources/pacman.png
 
 RESOURCES += \
-    Images.qrc
+    images.qrc

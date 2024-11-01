@@ -1,5 +1,16 @@
 <RCC>
-    <qresource prefix="/Sprite">
-        <file>C:/Users/layya/Downloads/pacman.png</file>
+    <qresource prefix="/">
+        <file>Resources/pacman.png</file>
+        <file>Resources/pacman_face_low.png</file>
+        <file>Resources/pacman_face_medium.png</file>
+        <file>Resources/pacman_face_total.png</file>
+        <file>Resources/pacman_face_low_-90.png</file>
+        <file>Resources/pacman_face_medium_-90.png</file>
+        <file>Resources/pacman_face_low_+90.png</file>
+        <file>Resources/pacman_face_low_180.png</file>
+        <file>Resources/pacman_face_medium_+90.png</file>
+        <file>Resources/pacman_face_medium_180.png</file>
+        <file>Resources/potent.png</file>
+        <file>Resources/potentiator.png</file>
     </qresource>
 </RCC>

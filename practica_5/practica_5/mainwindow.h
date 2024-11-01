@@ -26,7 +26,11 @@ private:
     void renderScene();
     QGraphicsScene* scene;
     Player* player;
-    int timerPlayer;
+    int IdtimerPlayer; // frecuencia de cambio en movimiento
+    int idTimerSptritePlayer; //frecuencia de cambio sprite player
+
+    QPixmap coins;
+    QPixmap potentiator;
 
 protected:
     void keyPressEvent(QKeyEvent * event) override;
