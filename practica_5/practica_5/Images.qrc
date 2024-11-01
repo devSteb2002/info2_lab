@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/Sprite">
+        <file>C:/Users/layya/Downloads/pacman.png</file>
+    </qresource>
+</RCC>

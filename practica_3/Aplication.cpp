@@ -432,7 +432,6 @@ bool compareDecrypts(string line, string passIn, unsigned int id, string &user){
 
     string decryptFirstMethod = decryptBinaryInFirstMethod(line);
     string decryptSecondMethod = decryptBinaryInSecondMethod(line);
-
     string assciFirstMethod = convertToAssci(decryptFirstMethod);
     string assciSecondMethod = convertToAssci(decryptSecondMethod);
 

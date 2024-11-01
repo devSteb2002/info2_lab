@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/Sprites"/>
+    <qresource prefix="/">
+        <file>pacman.png</file>
+    </qresource>
+</RCC>
