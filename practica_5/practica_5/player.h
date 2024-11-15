@@ -15,9 +15,14 @@ public:
     void continueMove();
     void updateSprite();
 
+    void updateScore(int score = 0);
+    QGraphicsPixmapItem* getPlayer() const;
+    void resLife();
+    void gameOver();
+
+    ~Player();
 private:
     QGraphicsScene* scene;
-    QTimer* moveTimer;
     float velocity;
 
     unsigned short direction;
@@ -54,11 +59,10 @@ private:
     int score;
     QGraphicsTextItem* scoreText;
 
+    short lifes;
 
-    void verifyCollisions();
     bool checkNexPosition(int x, int y);
 
-    void updateScore();
 
 
 };

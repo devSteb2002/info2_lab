@@ -66,6 +66,8 @@ Player::Player(QGraphicsScene* scene_): scene(scene_) {
     direction = 0;
     velocity = 3;
     itemNextValue = 7;
+    score = 0;
+    lifes = 3;
 }
 
 void Player::updateSprite(){
@@ -102,32 +104,22 @@ void Player::keyPress(QKeyEvent *event) {
     case 87:
 
         if (!checkNexPosition(player->x(), player->y() - itemNextValue)) return;
-
-        player->setPos(player->x(), player->y() - velocity); // w
-        direction = 1;
+        direction = 1; // w
         break;
     case 68:
 
         if (!checkNexPosition(player->x() + itemNextValue, player->y())) return;
-
-        direction = 2;
-        player->setPos(player->x() + velocity, player->y()); //d
-
+        direction = 2; //d
         break;
     case 65:
 
         if (!checkNexPosition(player->x() - itemNextValue, player->y())) return;
-
-        player->setPos(player->x() - velocity, player->y()); // a
-        direction = 3;
-
+        direction = 3; // a
         break;
     case 83:
 
         if (!checkNexPosition(player->x(), player->y() + itemNextValue)) return;
-
-        player->setPos(player->x(), player->y() + velocity); // s
-        direction = 4;
+        direction = 4; // s
 
         break;
     }
@@ -194,11 +186,27 @@ void Player::continueMove(){
     else if (player->x() > 556) player->setPos(0, player->y());
 }
 
-void Player::updateScore(){
-     scoreText->setPlainText(QString("Score: %1").arg(score));
+void Player::updateScore(int score_){
+    if (score_ == 0) scoreText->setPlainText(QString("Score: %1").arg(score)); //monedas que atrapa el jugador
+    else {  // cuando se come un fantasma
+        score = score + score_;
+        scoreText->setPlainText(QString("Score: %1").arg(score));
+    }
 }
 
-void Player::verifyCollisions(){
+QGraphicsPixmapItem* Player::getPlayer() const{
+    return player;
+}
+
+void Player::gameOver(){
+    if (lifes > 0){
+
+    }
+
+    lifes--;
+}
 
 
+Player::~Player(){
+ delete scoreText;
 }

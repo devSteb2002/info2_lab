@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include "player.h"
+#include "enemy.h"
 #include <QMainWindow>
 #include <QGraphicsScene>
 #include <QGraphicsView>
@@ -24,13 +25,22 @@ public:
 private:
     Ui::MainWindow *ui;
     void renderScene();
+    void initGame();
     QGraphicsScene* scene;
     Player* player;
     int IdtimerPlayer; // frecuencia de cambio en movimiento
     int idTimerSptritePlayer; //frecuencia de cambio sprite player
+    int idTimerGhost; // frecuencia de cambio ghost
+    int idTimerMoveGhots;
+    int idTimerGhostCheckPosition;
+
+    bool isInit = false;
 
     QPixmap coins;
     QPixmap potentiator;
+    QGraphicsTextItem* textInit;
+
+    std::vector<Enemy> enemies;
 
 protected:
     void keyPressEvent(QKeyEvent * event) override;

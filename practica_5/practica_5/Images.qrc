@@ -12,5 +12,37 @@
         <file>Resources/pacman_face_medium_180.png</file>
         <file>Resources/potent.png</file>
         <file>Resources/potentiator.png</file>
+        <file>Resources/ghost_red_down.png</file>
+        <file>Resources/ghost_red_down1.png</file>
+        <file>Resources/ghost_red_left.png</file>
+        <file>Resources/ghost_red_left1.png</file>
+        <file>Resources/ghost_red_rigth.png</file>
+        <file>Resources/ghost_red_rigth1.png</file>
+        <file>Resources/ghost_red_up.png</file>
+        <file>Resources/ghost_red_up1.png</file>
+        <file>Resources/ghost_pink_down.png</file>
+        <file>Resources/ghost_pink_down1.png</file>
+        <file>Resources/ghost_pink_left.png</file>
+        <file>Resources/ghost_pink_left1.png</file>
+        <file>Resources/ghost_pink_rigth.png</file>
+        <file>Resources/ghost_pink_rigth1.png</file>
+        <file>Resources/ghost_pink_up.png</file>
+        <file>Resources/ghost_pink_up1.png</file>
+        <file>Resources/ghost_blue_down.png</file>
+        <file>Resources/ghost_blue_down1.png</file>
+        <file>Resources/ghost_blue_left.png</file>
+        <file>Resources/ghost_blue_left1.png</file>
+        <file>Resources/ghost_blue_rigth.png</file>
+        <file>Resources/ghost_blue_rigth1.png</file>
+        <file>Resources/ghost_blue_up.png</file>
+        <file>Resources/ghost_blue_up1.png</file>
+        <file>Resources/ghost_yellow_down.png</file>
+        <file>Resources/ghost_yellow_down1.png</file>
+        <file>Resources/ghost_yellow_left.png</file>
+        <file>Resources/ghost_yellow_left1.png</file>
+        <file>Resources/ghost_yellow_rigth.png</file>
+        <file>Resources/ghost_yellow_rigth1.png</file>
+        <file>Resources/ghost_yellow_up.png</file>
+        <file>Resources/ghost_yellow_up1.png</file>
     </qresource>
 </RCC>
