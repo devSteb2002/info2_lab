@@ -10,11 +10,12 @@ using namespace std;
 class Enemy
 {
 public:
-    Enemy(QString name_, int x_, int y_, QGraphicsScene* scene_);
+    Enemy(QString name_, float x_, float y_, QGraphicsScene* scene_);
     void updateSpriteGhost();
     void direction(Player* player);
     void moveEnemy();
     void colliderWithPlayer(Player* palyer);
+    void restartPosition();
 
 
     ~Enemy();
@@ -52,9 +53,8 @@ private:
     void changeFace(QPixmap face, QPixmap face1);
     bool checkIfCollider(int x, int y);
 
-
-
-
+    float x_initial;
+    float y_initial;
 };
 
 #endif // ENEMY_H

@@ -23,6 +23,9 @@ Player::Player(QGraphicsScene* scene_): scene(scene_) {
     faceLow180 = QPixmap(":/Resources/pacman_face_low_180.png");
     faceMedium180 = QPixmap(":/Resources/pacman_face_medium_180.png");
 
+    //vidad
+    QPixmap lives_3 = QPixmap(":/Resources/lives_3.png");
+
 
     if (faceLow.isNull() ||
         faceMedium.isNull() ||
@@ -32,21 +35,22 @@ Player::Player(QGraphicsScene* scene_): scene(scene_) {
         faceLowMore90.isNull() ||
         faceMediumMore90.isNull() ||
         faceLow180.isNull() ||
-        faceMedium180.isNull()
+        faceMedium180.isNull() ||
+        lives_3.isNull()
         ){
         qDebug() << "No se pudo cargar pac man";
     }
 
 
-    faceMedium = faceMedium.scaled(22, 22, Qt::KeepAspectRatio);
-    faceLow = faceLow.scaled(22, 22, Qt::KeepAspectRatio);
-    faceTotal = faceTotal.scaled(22, 22, Qt::KeepAspectRatio);
-    faceLowLees90 = faceLowLees90.scaled(22, 22, Qt::KeepAspectRatio);
-    faceMediunLees90 = faceMediunLees90.scaled(22, 22, Qt::KeepAspectRatio);
-    faceLowMore90 = faceLowMore90.scaled(22, 22, Qt::KeepAspectRatio);
-    faceMediumMore90 = faceMediumMore90.scaled(22, 22, Qt::KeepAspectRatio);
-    faceLow180 = faceLow180.scaled(22, 22, Qt::KeepAspectRatio);
-    faceMedium180 = faceMedium180.scaled(22, 22, Qt::KeepAspectRatio);
+    faceMedium = faceMedium.scaled(23, 23, Qt::KeepAspectRatio);
+    faceLow = faceLow.scaled(23, 23, Qt::KeepAspectRatio);
+    faceTotal = faceTotal.scaled(23, 23, Qt::KeepAspectRatio);
+    faceLowLees90 = faceLowLees90.scaled(23, 23, Qt::KeepAspectRatio);
+    faceMediunLees90 = faceMediunLees90.scaled(23, 23, Qt::KeepAspectRatio);
+    faceLowMore90 = faceLowMore90.scaled(23, 23, Qt::KeepAspectRatio);
+    faceMediumMore90 = faceMediumMore90.scaled(23, 23, Qt::KeepAspectRatio);
+    faceLow180 = faceLow180.scaled(23, 23, Qt::KeepAspectRatio);
+    faceMedium180 = faceMedium180.scaled(23, 23, Qt::KeepAspectRatio);
 
     isFaceLow = true, isFaceTotal = false, isFaceMedium = false;
 
@@ -63,11 +67,16 @@ Player::Player(QGraphicsScene* scene_): scene(scene_) {
 
     scene->addItem(scoreText);
 
+    //añadir vidas
+    livesImg = new QGraphicsPixmapItem(lives_3);
+    livesImg->setPos(500, 10);
+    scene->addItem(livesImg);
+
     direction = 0;
-    velocity = 3;
+    velocity = 4.5;
     itemNextValue = 7;
     score = 0;
-    lifes = 3;
+    lifes = 2;
 }
 
 void Player::updateSprite(){
@@ -143,9 +152,17 @@ bool Player::checkNexPosition(int x, int y){
             updateScore();
         }
         else if (item->data(0).toString() == "potentiator"){
+            qDebug() << "potenciador";
             score += 5;
             scene->removeItem(item);
             updateScore();
+            setHunted(true);
+
+            QTimer::singleShot(8000, [this]() {
+                qDebug() << "termino caceria";
+                setHunted(false);
+            });
+
         }
     }
 
@@ -153,6 +170,7 @@ bool Player::checkNexPosition(int x, int y){
 }
 
 void Player::continueMove(){
+    if (getDead()) return;
 
     switch (direction) {
     case 1:
@@ -199,14 +217,69 @@ QGraphicsPixmapItem* Player::getPlayer() const{
 }
 
 void Player::gameOver(){
+
     if (lifes > 0){
+        QString url = ":/Resources/lives_" + QString::number(lifes) + ".png";
+        QPixmap img = QPixmap(url);
 
+        if (img.isNull()) qDebug() << "Error al cargar las imagenes";
+        livesImg->setPixmap(img);
+
+        setDead(true);
+
+        QTimer::singleShot(1000, [this]() {
+            setDead(false);
+        });
+
+        player->setPos(15, 55);
+
+        lifes--;
+
+    }else{
+        //se termina el juego
+
+        setGameOver(true);
+        qDebug() << "dead";
+        scoreText->setPlainText(QString("Score: %1").arg(0)); // reinicializar score
+        QPixmap img = QPixmap(":/Resources/lives_3.png");
+        score = 0;
+
+        livesImg->setPixmap(img);
+
+        lifes = 2; // reinicializar vidas
     }
-
-    lifes--;
 }
 
+bool Player::getDead() const{
+    return dead;
+}
+
+void Player::setDead(bool dead_){
+    dead = dead_;
+}
+
+void Player::setGameOver(bool over){
+    isGameOver = over;
+}
+
+bool Player::getGameOver() const{
+    return isGameOver;
+}
+
+void Player::setPosition(float x, float y){
+    player->setPos(x, y);
+}
+
+void Player::setHunted(bool hunted){
+    this->hunted = hunted;
+}
+
+bool Player::getHunted() const{
+    return hunted;
+}
 
 Player::~Player(){
- delete scoreText;
+    delete scoreText;
+    delete player;
+    delete livesImg;
 }

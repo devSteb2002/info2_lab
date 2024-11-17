@@ -4,7 +4,8 @@
 #include <QGraphicsItem>
 #include <QKeyEvent>
 #include <QGraphicsRectItem>
-
+#include <QObject>
+#include <QTimer>
 
 class Player
 {
@@ -19,6 +20,13 @@ public:
     QGraphicsPixmapItem* getPlayer() const;
     void resLife();
     void gameOver();
+    bool getDead() const;
+    void setDead(bool dead_);
+    void setGameOver(bool over);
+    bool getGameOver() const;
+    void setPosition(float x, float y);
+    void setHunted(bool hunted);
+    bool getHunted() const;
 
     ~Player();
 private:
@@ -60,11 +68,14 @@ private:
     QGraphicsTextItem* scoreText;
 
     short lifes;
+    QGraphicsPixmapItem* livesImg;
+
+    bool dead;
+    bool isGameOver;
+
+    bool hunted;
 
     bool checkNexPosition(int x, int y);
-
-
-
 };
 
 #endif // PLAYER_H

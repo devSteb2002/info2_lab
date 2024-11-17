@@ -44,5 +44,8 @@
         <file>Resources/ghost_yellow_rigth1.png</file>
         <file>Resources/ghost_yellow_up.png</file>
         <file>Resources/ghost_yellow_up1.png</file>
+        <file>Resources/lives_1.png</file>
+        <file>Resources/lives_2.png</file>
+        <file>Resources/lives_3.png</file>
     </qresource>
 </RCC>

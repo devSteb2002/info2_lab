@@ -5,7 +5,7 @@
 #include <cmath>
 
 
-Enemy::Enemy(QString name_, int x, int y, QGraphicsScene *scene_) : name(name_), scene(scene_)  {
+Enemy::Enemy(QString name_, float x, float y, QGraphicsScene *scene_) : name(name_), scene(scene_), x_initial(x), y_initial(y)  {
 
     QString urlFirst = ":/Resources/ghost_";
     QString urlSecond = urlFirst + name;
@@ -31,20 +31,20 @@ Enemy::Enemy(QString name_, int x, int y, QGraphicsScene *scene_) : name(name_),
         qDebug() << "No se cargaron los fantasmas " << name;
     }
 
-    faceRigth = faceRigth.scaled(27, 27, Qt::KeepAspectRatio);
-    faceRigth1 = faceRigth1.scaled(27, 27, Qt::KeepAspectRatio);
-    faceLeft = faceLeft.scaled(27, 27, Qt::KeepAspectRatio);
-    faceLeft1 = faceLeft1.scaled(27, 27, Qt::KeepAspectRatio);
-    faceDown = faceDown.scaled(27, 27, Qt::KeepAspectRatio);
-    faceDown1 = faceDown1.scaled(27, 27, Qt::KeepAspectRatio);
-    faceUp = faceUp.scaled(27, 27, Qt::KeepAspectRatio);
-    faceUp1 = faceUp1.scaled(27, 27, Qt::KeepAspectRatio);
+    faceRigth = faceRigth.scaled(21, 21, Qt::KeepAspectRatio);
+    faceRigth1 = faceRigth1.scaled(21, 21, Qt::KeepAspectRatio);
+    faceLeft = faceLeft.scaled(21, 21, Qt::KeepAspectRatio);
+    faceLeft1 = faceLeft1.scaled(21, 21, Qt::KeepAspectRatio);
+    faceDown = faceDown.scaled(21, 21, Qt::KeepAspectRatio);
+    faceDown1 = faceDown1.scaled(21, 21, Qt::KeepAspectRatio);
+    faceUp = faceUp.scaled(21, 21, Qt::KeepAspectRatio);
+    faceUp1 = faceUp1.scaled(21, 21, Qt::KeepAspectRatio);
 
     ghost = new QGraphicsPixmapItem(faceRigth);
     scene->addItem(ghost);
     ghost->setPos(x, y);
 
-    speedEnemy = 3;
+    speedEnemy = 4.5;
     directionEnemy = 1;
     colliderNumber = 7.8;
     isHunting = false; // saber si pac-man va a cazar a los
@@ -83,6 +83,12 @@ void Enemy::changeFace(QPixmap face, QPixmap face1){
 }
 
 void Enemy::direction(Player* player){
+    if (player->getDead()){
+        directionEnemy = 0;
+        restartPosition();
+        return;
+    }
+
     if (haunted) return;
 
     vector<short> validWays;
@@ -165,22 +171,22 @@ void Enemy::colliderWithPlayer(Player* player){ // verificar colisiones con el p
 
     if (ghost->collidesWithItem(player->getPlayer())){
 
+        if (player->getHunted()){
+            player->updateScore(5);
+            ghost->setOpacity(0);
+            return;
+        }
+
         qDebug() << "fantasma colisiono con player";
-    //ghost->setOpacity(0);
-
-
-
-        haunted = true;
 
         if (!isHunting){ // gameOver
-
-        }else{ // pierde el fantasma y el usuario aumeta su score
-            player->updateScore(5);
+            if (ghost->opacity() != 0.0)  player->gameOver();
         }
     }
 }
 
 void Enemy::moveEnemy(){
+
     if (haunted) return;
 
     isFaceDown = false;
@@ -214,6 +220,10 @@ void Enemy::moveEnemy(){
     }
 }
 
-Enemy::~Enemy(){
+void Enemy::restartPosition(){
+    ghost->setPos(x_initial, y_initial);
+}
 
+Enemy::~Enemy(){
+    //delete ghost;
 }

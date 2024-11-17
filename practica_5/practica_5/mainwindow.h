@@ -40,6 +40,8 @@ private:
     QPixmap potentiator;
     QGraphicsTextItem* textInit;
 
+    void messageGameOver();
+
     std::vector<Enemy> enemies;
 
 protected:
